@@ -14,11 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Gestionnaire de tache',
       theme: ThemeData(
-   
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primaryColor: Color.fromARGB(255, 68, 21, 151),
+        secondaryHeaderColor: Colors.white,
       ),
-      home: Home(),
+      home: const Home(),
     );
   }
 }

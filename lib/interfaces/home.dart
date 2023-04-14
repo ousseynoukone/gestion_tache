@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'auth/auth.dart';
+import 'auth/start.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,6 +18,13 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _interfaces.add(Start(onNext: (index) {
+      setState(() {
+        print('index fourni from start ${index}');
+        _currentIndex = index;
+      });
+    }));
 
     _interfaces.add(Auth(onNext: (index) {
       setState(() {
@@ -40,14 +48,12 @@ class _HomeState extends State<Home> {
       });
 
     }));*/
-    
-    }
+  }
 
-    @override
-    Widget build(BuildContext context) {
-      return Container(
-        child: _interfaces.elementAt(_currentIndex),
-      );
-    }
-  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: _interfaces.elementAt(_currentIndex),
+    );
+  }
 }
