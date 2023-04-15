@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import '../../globals/globals.dart' as globals;
 
 class Auth extends StatefulWidget {
-  final Function({int index,String? errorMessage}) onNext;
+  final Function(int index) onNext;
 
-
- const  Auth({super.key, required this.onNext });
+  Auth({super.key, required this.onNext});
 
   @override
   State<Auth> createState() => _AuthState();

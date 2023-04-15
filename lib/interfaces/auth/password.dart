@@ -17,7 +17,6 @@ class _PasswordState extends State<Password> {
       print("Welcome");
     } else {
       widget.onNext(1);
-      
     }
   }
 
