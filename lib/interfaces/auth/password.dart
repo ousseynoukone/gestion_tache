@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
 
-class Auth extends StatefulWidget {
+class Password extends StatefulWidget {
   final Function(int) onNext;
-  const Auth({super.key, required this.onNext});
+  const Password({super.key, required this.onNext});
 
   @override
-  State<Auth> createState() => _AuthState();
+  State<Password> createState() => _PasswordState();
 }
 
-class _AuthState extends State<Auth> {
+class _PasswordState extends State<Password> {
+  String _inputContent = "";
+  bool _obscureText = true;
   final GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
-
-  String adr_email = "";
-  final RegExp emailRegExp = RegExp(r"[a-z0-9\._-]+@[a-z0-9\._-]+\.[a-z]+");
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(),
+        appBar: AppBar(
+          title: Text(''),
+          elevation: 0.0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          leading: IconButton(
+            onPressed: () {
+              widget.onNext(1);
+              //  print('click sur le retour');
+            },
+            icon: Icon(
+              Icons.arrow_back,
+            ),
+            color: Colors.black,
+          ),
+        ),
         body: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(
@@ -29,33 +42,10 @@ class _AuthState extends State<Auth> {
                 //   SizedBox(
                 //     height: 200.0,
                 //   ),
-                RichText(
-                  text: TextSpan(
-                    text: 'Authentification'.toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '-'.toUpperCase(),
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
                 Text(
-                  'Merci de renseignez vos infos',
+                  'Mot de passe'.toUpperCase(),
                   style: TextStyle(
-                    fontStyle: FontStyle.italic,
+                    fontSize: 30.0,
                   ),
                 ),
                 SizedBox(
@@ -67,7 +57,7 @@ class _AuthState extends State<Auth> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        'Entrez votre adresse email',
+                        'Entrez votre mot de passe',
                       ),
                       SizedBox(
                         height: 10.0,
@@ -75,22 +65,30 @@ class _AuthState extends State<Auth> {
                       TextFormField(
                         onChanged: (value) {
                           setState(() {
-                            adr_email = value;
+                            _inputContent = value;
                           });
 
-                          // _formGlobalKey.currentState!.validate();
-                        //  print("input = ${adr_email}");
+                          print("input = ${_inputContent}");
                         },
-                        validator: (value) => adr_email.isEmpty ||
-                                !emailRegExp.hasMatch(adr_email)
-                            ? 'Vérifier l\'email saisi...'
+                        validator: (value) => (_inputContent.isEmpty ||
+                                _inputContent.length < 6)
+                            ? 'Entrer un mot de passe avec 6 caractères minimum'
                             : null,
+                        obscureText: _obscureText,
                         decoration: InputDecoration(
-                          hintText: 'ex:test@gmail.com',
+                          suffixIcon: InkWell(
+                            onTap: () => setState(() {
+                              _obscureText = !_obscureText;
+                            }),
+                            child: Icon(_obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
+                          hintText: 'ex: !#2023@l3gl',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(2.0),
                             borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.amber,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -104,17 +102,12 @@ class _AuthState extends State<Auth> {
                         height: 10.0,
                       ),
                       ElevatedButton(
-                        onPressed: adr_email.isEmpty ||
-                                !emailRegExp.hasMatch(adr_email)
-                            ? null
-                            : () {
-                                if (_formGlobalKey.currentState!.validate()) {
-                                  print('form validé');
-                                  widget.onNext(2);
-                                } else {
-                                  print('form non validé');
-                                }
-                              },
+                        onPressed: () {
+                          if (_formGlobalKey.currentState!.validate()) {
+                            print("interface cgu");
+                            widget.onNext(2);
+                          }
+                        },
                         child: Text(
                           'Suivant'.toUpperCase(),
                         ),
