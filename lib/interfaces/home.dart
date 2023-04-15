@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'auth/auth.dart';
+import 'auth/password.dart';
 import 'auth/start.dart';
 import 'auth/password.dart';
 
@@ -22,7 +23,6 @@ class _HomeState extends State<Home> {
 
     _interfaces.add(Start(onNext: (index) {
       setState(() {
-        print('index fourni from start ${index}');
         _currentIndex = index;
       });
     }));

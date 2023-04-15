@@ -23,14 +23,11 @@ class _AuthState extends State<Auth> {
         // appBar: AppBar(),
         body: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               horizontal: 30.0,
             ),
             child: Column(
               children: [
-                //   SizedBox(
-                //     height: 200.0,
-                //   ),
                 RichText(
                   text: TextSpan(
                     text: 'Authentification'.toUpperCase(),
@@ -54,7 +51,7 @@ class _AuthState extends State<Auth> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                const Text(
+                Text(
                   'Merci de renseignez vos infos',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
@@ -68,10 +65,10 @@ class _AuthState extends State<Auth> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
+                      const Text(
                         'Entrez votre adresse email',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
@@ -80,10 +77,7 @@ class _AuthState extends State<Auth> {
                             adr_email = value;
                             globals.username = value;
                           });
-
-                          // _formGlobalKey.currentState!.validate();
-                          //print("input = ${adr_email}");
-                        },
+                        },  
                         validator: (value) => adr_email.isEmpty ||
                                 !emailRegExp.hasMatch(adr_email)
                             ? 'Vérifier l\'email saisi...'
@@ -103,7 +97,7 @@ class _AuthState extends State<Auth> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10.0,
                       ),
                       ElevatedButton(

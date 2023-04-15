@@ -25,7 +25,6 @@ class _PasswordState extends State<Password> {
           leading: IconButton(
             onPressed: () {
               widget.onNext(0);
-              //print('click sur le retour');
             },
             icon: Icon(
               Icons.arrow_back,
@@ -93,11 +92,11 @@ class _PasswordState extends State<Password> {
                               color: Colors.amber,
                             ),
                           ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.amber,
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
-                          ),
                         ),
                       ),
                       const SizedBox(
@@ -110,6 +109,8 @@ class _PasswordState extends State<Password> {
                             print("Passwordg ${globals.password}");
                             print("Username : ${globals.username}");
                             // widget.onNext(2);
+                            print("interface cgu");
+                            widget.onNext(2);
                           }
                         },
                         child: Text(
@@ -117,7 +118,7 @@ class _PasswordState extends State<Password> {
                         ),
                         style: ElevatedButton.styleFrom(
                           elevation: 5.0,
-                          backgroundColor: Colors.amber,
+                          backgroundColor: Theme.of(context).primaryColor,
                         ),
                       ),
                     ],
