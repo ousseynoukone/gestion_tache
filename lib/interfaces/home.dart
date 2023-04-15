@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'auth/auth.dart';
 import 'auth/password.dart';
 import 'auth/start.dart';
-import 'auth/password.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
