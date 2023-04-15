@@ -23,8 +23,8 @@ class _StartState extends State<Start> {
               borderRadius: BorderRadius.circular(100),
               child: Container(
                 height: 400,
-                child: Image(
-                  image: NetworkImage("https://static.vecteezy.com/system/resources/previews/003/216/687/original/lets-start-big-words-concept-with-team-people-and-rocket-free-vector.jpg"),
+                child: const Image(
+                  image: AssetImage("resources/start.jpg"),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -49,7 +49,6 @@ class _StartState extends State<Start> {
           ),
           ElevatedButton(
             onPressed: () {
-              print("gfhhf");
               widget.onNext(1);
             },
             child: Text(

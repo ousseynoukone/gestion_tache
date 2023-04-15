@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../globals/globals.dart' as globals;
 
+
 class Auth extends StatefulWidget {
   final Function(int) onNext;
   const Auth({super.key, required this.onNext});
