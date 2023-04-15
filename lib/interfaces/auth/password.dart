@@ -10,6 +10,17 @@ class Password extends StatefulWidget {
 }
 
 class _PasswordState extends State<Password> {
+  void checkCredentials(username, password) {
+    String trueUsername = "admin@gmail.com";
+    String truePassword = "passer123";
+    if (username == trueUsername && password == truePassword) {
+      print("Welcome");
+    } else {
+      widget.onNext(1);
+      
+    }
+  }
+
   String _inputContent = "";
   bool _obscureText = true;
   final GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
@@ -24,7 +35,7 @@ class _PasswordState extends State<Password> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           leading: IconButton(
             onPressed: () {
-              widget.onNext(0);
+              widget.onNext(1);
             },
             icon: Icon(
               Icons.arrow_back,
@@ -69,7 +80,7 @@ class _PasswordState extends State<Password> {
                             globals.password = value;
                           });
 
-                          print("input = ${_inputContent}");
+                          //  print("input = ${_inputContent}");
                         },
                         validator: (value) => (_inputContent.isEmpty ||
                                 _inputContent.length < 6)
@@ -92,11 +103,11 @@ class _PasswordState extends State<Password> {
                               color: Colors.amber,
                             ),
                           ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                              ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Theme.of(context).primaryColor,
                             ),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -105,9 +116,10 @@ class _PasswordState extends State<Password> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formGlobalKey.currentState!.validate()) {
-                            
-                            print("Passwordg ${globals.password}");
-                            print("Username : ${globals.username}");
+                            //    print("Passwordg ${globals.password}");
+                            //  print("Username : ${globals.username}");
+                            checkCredentials(
+                                globals.username, globals.password);
                           }
                         },
                         child: Text(

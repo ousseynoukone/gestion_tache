@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../globals/globals.dart' as globals;
 
-
 class Auth extends StatefulWidget {
-  final Function(int) onNext;
-  const Auth({super.key, required this.onNext});
+  final Function({int index,String? errorMessage}) onNext;
+
+
+ const  Auth({super.key, required this.onNext });
 
   @override
   State<Auth> createState() => _AuthState();
@@ -77,7 +78,7 @@ class _AuthState extends State<Auth> {
                             adr_email = value;
                             globals.username = value;
                           });
-                        },  
+                        },
                         validator: (value) => adr_email.isEmpty ||
                                 !emailRegExp.hasMatch(adr_email)
                             ? 'Vérifier l\'email saisi...'

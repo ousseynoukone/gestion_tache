@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
       title: 'Gestionnaire de tache',
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 68, 21, 151),
