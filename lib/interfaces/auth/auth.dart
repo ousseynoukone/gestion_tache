@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../globals/globals.dart' as globals;
 
 class Auth extends StatefulWidget {
-  final Function({int index,String? errorMessage}) onNext;
+  final Function(int) onNext;
 
 
  const  Auth({super.key, required this.onNext });
@@ -98,9 +98,22 @@ class _AuthState extends State<Auth> {
                           ),
                         ),
                       ),
+
+
                       const SizedBox(
                         height: 10.0,
                       ),
+
+
+                      globals.errorMessage != null ? 
+                      Text(
+                        "${globals.errorMessage}",
+                        style: const TextStyle(
+                          color: Colors.red
+                        )
+                      ) : const Text(" "),
+
+
                       ElevatedButton(
                         onPressed: adr_email.isEmpty ||
                                 !emailRegExp.hasMatch(adr_email)
@@ -121,6 +134,7 @@ class _AuthState extends State<Auth> {
                           backgroundColor: Theme.of(context).primaryColor,
                         ),
                       ),
+                      
                     ],
                   ),
                 ),

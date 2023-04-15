@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import '../../globals/globals.dart' as globals;
 
 class Password extends StatefulWidget {
@@ -10,14 +11,21 @@ class Password extends StatefulWidget {
 }
 
 class _PasswordState extends State<Password> {
-  void checkCredentials(username, password) {
+
+  void checkCredentials(username, password, context) {
     String trueUsername = "admin@gmail.com";
     String truePassword = "passer123";
+    String trueName = "Ousseynou K.";
+
     if (username == trueUsername && password == truePassword) {
-      print("Welcome");
+      globals.errorMessage = trueName;
+      Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Accueil()),
+            );
     } else {
+      globals.errorMessage = "Mot de Passe ou Email Incorrect(s)";
       widget.onNext(1);
-      
     }
   }
 
@@ -119,7 +127,7 @@ class _PasswordState extends State<Password> {
                             //    print("Passwordg ${globals.password}");
                             //  print("Username : ${globals.username}");
                             checkCredentials(
-                                globals.username, globals.password);
+                                globals.username, globals.password, context);
                           }
                         },
                         child: Text(
