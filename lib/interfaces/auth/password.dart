@@ -108,9 +108,6 @@ class _PasswordState extends State<Password> {
                             
                             print("Passwordg ${globals.password}");
                             print("Username : ${globals.username}");
-                            // widget.onNext(2);
-                            print("interface cgu");
-                            widget.onNext(2);
                           }
                         },
                         child: Text(
