@@ -34,20 +34,28 @@ class _AddTask extends State<AddTask> {
     print(t);
   }
 
-  bool checkIfString(String value) {
-    final descriptionPattern = RegExp(r'^[a-zA-Z0-9\s.,_-]+$');
-    final numericPattern = RegExp(r'^[0-9]+$');
-    final specialCharPattern = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£/{}]+');
-
-    if (numericPattern.hasMatch(description)) {
-      return false; // la description contient uniquement des chiffres
+  bool isValidText(String text) {
+    // Vérifie si la chaîne contient au moins une lettre
+    bool hasLetter = false;
+    for (int i = 0; i < text.length; i++) {
+      if (text[i].toLowerCase() != text[i].toUpperCase()) {
+        hasLetter = true;
+        break;
+      }
     }
 
-    if (specialCharPattern.hasMatch(description)) {
-      return false; // la description contient des caractères spéciaux indésirables
+    // Vérifie si la chaîne contient uniquement des caractères autorisés
+    const allowedChars =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\n \"-_?)&('><:,.!;+-àâéèêëîïôœùûüç*/%£\$";
+    bool hasOnlyAllowedChars = true;
+    for (int i = 0; i < text.length; i++) {
+      if (!allowedChars.contains(text[i])) {
+        hasOnlyAllowedChars = false;
+        break;
+      }
     }
 
-    return descriptionPattern.hasMatch(value);
+    return hasLetter && hasOnlyAllowedChars;
   }
 
   @override
@@ -93,9 +101,9 @@ class _AddTask extends State<AddTask> {
                       initialValue:
                           globals.task == null ? "" : globals.task?.title,
                       validator: (value) {
-                        if (title == null ||
+                        if (title.trim() == null ||
                             title.isEmpty ||
-                            checkIfString(title) == false) {
+                            isValidText(title.trim()) == false) {
                           return 'Saisir un titre valide';
                         }
                         return null;
@@ -135,9 +143,9 @@ class _AddTask extends State<AddTask> {
                         });
                       },
                       validator: (value) {
-                        if (description == null ||
+                        if (description.trim() == null ||
                             description.isEmpty ||
-                            checkIfString(description) == false) {
+                            isValidText(description.trim()) == false) {
                           return 'Saisir une description valide';
                         }
                         return null;
