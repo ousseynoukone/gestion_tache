@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:gestion_tache/interfaces/home.dart';
 import './globals/globals.dart' as globals;
 
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         primaryColor: Color.fromARGB(255, 68, 21, 151),
         secondaryHeaderColor: Colors.white,
       ),
-      home: const Home(),
+      //home: const Home(),
+      home: const Accueil(),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../globals/globals.dart' as globals;
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -43,7 +42,7 @@ class _AccueilState extends State<Accueil> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Homepage',
+            "Page d'accueil",
             style: TextStyle(
                 color: Theme.of(context).primaryColor, fontFamily: 'Raleway'),
           ),
@@ -68,9 +67,46 @@ class _AccueilState extends State<Accueil> {
             ),
           ],
         ),
-        body: const Column(
+        body: Column(
           children: [
-            Text("Today's progress summary"),
+            Container(
+              margin: EdgeInsets.all(20.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  alignment: Alignment.center,
+                  constraints: BoxConstraints(minWidth: 350, minHeight: 100),
+                  color: Color.fromARGB(255, 68, 21, 151),
+                  child: const Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Résumé des progrès d'aujourd'hui ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "15 Taches ",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
