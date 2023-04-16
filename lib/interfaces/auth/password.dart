@@ -17,16 +17,21 @@ class _PasswordState extends State<Password> {
     String truePassword = "passer123";
     String trueName = "Ousseynou K.";
 
-    if (username == trueUsername && password == truePassword) {
-      globals.errorMessage = trueName;
-      Navigator.push(
+    Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const Accueil()),
             );
-    } else {
-      globals.errorMessage = "Mot de Passe ou Email Incorrect(s)";
-      widget.onNext(1);
-    }
+
+    // if (username == trueUsername && password == truePassword) {
+    //   globals.errorMessage = trueName;
+    //   Navigator.push(
+    //           context,
+    //           MaterialPageRoute(builder: (context) => const Accueil()),
+    //         );
+    // } else {
+    //   globals.errorMessage = "Mot de Passe ou Email Incorrect(s)";
+    //   widget.onNext(1);
+    // }
   }
 
   String _inputContent = "";
