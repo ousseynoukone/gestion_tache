@@ -23,7 +23,7 @@ class _AuthState extends State<Auth> {
         // appBar: AppBar(),
         body: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 30.0,
             ),
             child: Column(
@@ -51,13 +51,13 @@ class _AuthState extends State<Auth> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                Text(
+                const Text(
                   'Merci de renseignez vos infos',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50.0,
                 ),
                 Form(
@@ -116,12 +116,12 @@ class _AuthState extends State<Auth> {
                                   print('form non validé');
                                 }
                               },
-                        child: Text(
-                          'Suivant'.toUpperCase(),
-                        ),
                         style: ElevatedButton.styleFrom(
                           elevation: 5.0,
                           backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        child: Text(
+                          'Suivant'.toUpperCase(),
                         ),
                       ),
                     ],
