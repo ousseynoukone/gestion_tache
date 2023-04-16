@@ -18,6 +18,8 @@ class _AddTask extends State<AddTask> {
   DateTime date_echeance = DateTime.now();
 
   void _goBack() {
+    //pour que le task qui est dans global soit réinitialiser si on retourne a l'acceuil , autre il risque de conserver les donnés du precendent task et dés qu'on esssaye d'ajouter un task , c'est se task la qui va se charger
+    globals.task = null;
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const Accueil()));
   }
@@ -32,13 +34,29 @@ class _AddTask extends State<AddTask> {
     print(t);
   }
 
+  bool checkIfString(String value) {
+    final descriptionPattern = RegExp(r'^[a-zA-Z0-9\s.,_-]+$');
+    final numericPattern = RegExp(r'^[0-9]+$');
+    final specialCharPattern = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%$£/{}]+');
+
+    if (numericPattern.hasMatch(description)) {
+      return false; // la description contient uniquement des chiffres
+    }
+
+    if (specialCharPattern.hasMatch(description)) {
+      return false; // la description contient des caractères spéciaux indésirables
+    }
+
+    return descriptionPattern.hasMatch(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
         title: globals.task == null
-            ? Text('Creer une Nouvelle Tache')
+            ? Text('Creer une nouvelle tache')
             : Text("Details de la Tache"),
         elevation: 0.0,
         backgroundColor: Theme.of(context).primaryColor,
@@ -75,7 +93,9 @@ class _AddTask extends State<AddTask> {
                       initialValue:
                           globals.task == null ? "" : globals.task?.title,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (title == null ||
+                            title.isEmpty ||
+                            checkIfString(title) == false) {
                           return 'Saisir un titre valide';
                         }
                         return null;
@@ -115,7 +135,9 @@ class _AddTask extends State<AddTask> {
                         });
                       },
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (description == null ||
+                            description.isEmpty ||
+                            checkIfString(description) == false) {
                           return 'Saisir une description valide';
                         }
                         return null;
