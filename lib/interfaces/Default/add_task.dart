@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
+import 'package:gestion_tache/interfaces/Default/models/task.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -18,6 +19,16 @@ class _AddTask extends State<AddTask> {
   void _goBack() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const Accueil()));
+  }
+
+  void _saveTask() {
+    Task t = Task(
+        id: null,
+        title: title,
+        description: description,
+        date_echeance: date_echeance);
+
+    print(t);
   }
 
   @override
@@ -147,10 +158,7 @@ class _AddTask extends State<AddTask> {
                         });
                       },
                       validator: (DateTime? e) {
-                        return (e?.day ?? 0) == 1
-                            ? 'Please not the first day'
-                            : null;
-                        //return null;
+                        // null
                       },
                     ),
                     const SizedBox(
@@ -159,7 +167,7 @@ class _AddTask extends State<AddTask> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formGlobalKey.currentState!.validate()) {
-                          print("formulaire validé");
+                          _saveTask();
                         }
                       },
                       style: ElevatedButton.styleFrom(
