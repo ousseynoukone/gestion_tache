@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
+import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/home.dart';
 import './globals/globals.dart' as globals;
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         secondaryHeaderColor: Colors.white,
       ),
       //home: const Home(),
-      home: const Accueil(),
+      home: const AddTask(),
     );
   }
 }

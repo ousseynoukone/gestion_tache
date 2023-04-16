@@ -81,6 +81,7 @@ class _AccueilState extends State<Accueil> {
             Tasks(),
           ],
         ),
+        
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           child: BottomNavigationBar(
