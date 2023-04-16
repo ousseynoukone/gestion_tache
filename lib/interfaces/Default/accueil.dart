@@ -81,8 +81,8 @@ class _AccueilState extends State<Accueil> {
             Tasks(),
           ],
         ),
-        
         bottomNavigationBar: BottomAppBar(
+          height: 80.0,
           shape: const CircularNotchedRectangle(),
           child: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
@@ -193,7 +193,7 @@ class Tasks extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Taches du Jour",
+              "Liste des Taches",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             ElevatedButton(

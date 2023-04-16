@@ -140,17 +140,17 @@ class _AddTask extends State<AddTask> {
                       firstDate: DateTime.now().add(const Duration(days: 10)),
                       lastDate: DateTime.now().add(const Duration(days: 40)),
                       initialDate: DateTime.now().add(const Duration(days: 20)),
-                      autovalidateMode: AutovalidateMode.always,
-                      validator: (DateTime? e) {
-                        if (date_echeance.isAfter(DateTime.now())) {
-                          return "Choisir une Date";
-                        }
-                        return null;
-                      },
+                      //autovalidateMode: AutovalidateMode.always,
                       onDateSelected: (DateTime value) {
                         setState(() {
                           date_echeance = value;
                         });
+                      },
+                      validator: (DateTime? e) {
+                        return (e?.day ?? 0) == 1
+                            ? 'Please not the first day'
+                            : null;
+                        //return null;
                       },
                     ),
                     const SizedBox(
