@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
 
@@ -38,6 +39,11 @@ class _AccueilState extends State<Accueil> {
     });
   }
 
+  void _goToAddDartPage() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const AddTask()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -75,33 +81,45 @@ class _AccueilState extends State<Accueil> {
             Tasks(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              label: 'Calendar',
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline),
-              label: 'Business',
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'School',
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          child: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_today),
+                label: 'Calendar',
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat_bubble_outline),
+                label: 'Business',
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'School',
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
+          ),
         ),
+        floatingActionButton: FloatingActionButton.small(
+          backgroundColor: Theme.of(context).primaryColor,
+          elevation: 10.0,
+          onPressed: _goToAddDartPage,
+          tooltip: 'Increment Counter',
+          child: const Icon(Icons.add),
+        ),
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterDocked,
       ),
     );
   }
