@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
+import '../../globals/globals.dart' as globals;
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -237,14 +238,24 @@ class TaskItem extends StatelessWidget {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text("${task.title}"), Text("${formatDate()}")],
+            children: [
+              Text("${task.title}"),
+              SizedBox(height: 10.0),
+              Text("${formatDate()}")
+            ],
           ),
           ElevatedButton.icon(
-            onPressed: null,
+            onPressed: () {
+              globals.task = this.task;
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddTask()));
+            },
             icon: Icon(Icons.arrow_forward_ios),
             label: Text(""),
             style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(Colors.white),
+              foregroundColor:
+                  MaterialStatePropertyAll(Theme.of(context).primaryColor),
             ),
           ),
         ],

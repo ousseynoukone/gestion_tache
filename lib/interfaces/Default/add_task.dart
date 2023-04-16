@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
+import '../../globals/globals.dart' as globals;
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -36,7 +37,9 @@ class _AddTask extends State<AddTask> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Text('Creer une Nouvelle Tache'),
+        title: globals.task == null
+            ? Text('Creer une Nouvelle Tache')
+            : Text("Details de la Tache"),
         elevation: 0.0,
         backgroundColor: Theme.of(context).primaryColor,
         leading: IconButton(
@@ -69,6 +72,8 @@ class _AddTask extends State<AddTask> {
                           title = value;
                         });
                       },
+                      initialValue:
+                          globals.task == null ? "" : globals.task?.title,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Saisir un titre valide';
@@ -102,6 +107,8 @@ class _AddTask extends State<AddTask> {
                     TextFormField(
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
+                      initialValue:
+                          globals.task == null ? "" : globals.task?.description,
                       onChanged: (value) {
                         setState(() {
                           description = value;
@@ -148,36 +155,71 @@ class _AddTask extends State<AddTask> {
                         suffixIcon: Icon(Icons.event_note),
                         labelText: 'Choisir une date',
                       ),
-                      firstDate: DateTime.now().add(const Duration(days: 10)),
+                      firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 40)),
-                      initialDate: DateTime.now().add(const Duration(days: 20)),
+                      initialDate: globals.task == null
+                          ? DateTime.now()
+                          : globals.task?.date_echeance,
                       //autovalidateMode: AutovalidateMode.always,
                       onDateSelected: (DateTime value) {
                         setState(() {
                           date_echeance = value;
                         });
                       },
-                      validator: (DateTime? e) {
-                        // null
-                      },
                     ),
                     const SizedBox(
                       height: 50.0,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formGlobalKey.currentState!.validate()) {
-                          _saveTask();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 5.0,
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
-                      child: Text(
-                        'Ajouter'.toUpperCase(),
-                      ),
-                    ),
+                    globals.task == null
+                        ? ElevatedButton(
+                            onPressed: () {
+                              if (_formGlobalKey.currentState!.validate()) {
+                                _saveTask();
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 5.0,
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                            child: Text(
+                              'Ajouter'.toUpperCase(),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (_formGlobalKey.currentState!.validate()) {
+                                    // modifier
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5.0,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                ),
+                                child: Text(
+                                  'Modifier'.toUpperCase(),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (_formGlobalKey.currentState!.validate()) {
+                                    // supprimer
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5.0,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                ),
+                                child: Text(
+                                  'Supprimer'.toUpperCase(),
+                                ),
+                              )
+                            ],
+                          ),
                   ],
                 ),
               ),
