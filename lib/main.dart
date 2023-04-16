@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 68, 21, 151),
         secondaryHeaderColor: Colors.white,
+        primaryColorDark : Colors.redAccent,
       ),
       //home: const Home(),
       home: const AddTask(),

@@ -177,12 +177,12 @@ class Tasks extends StatelessWidget {
         id: 1,
         title: "title",
         description: "description",
-        date_echeance: new DateTime.now()),
+        date_echeance: new DateTime.now().add(const Duration(days: 30))),
     Task(
         id: 2,
         title: "title2",
         description: "description2",
-        date_echeance: new DateTime.now())
+        date_echeance: new DateTime.now().add(const Duration(days: 10)))
   ];
 
   @override

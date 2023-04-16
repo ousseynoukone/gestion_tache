@@ -155,11 +155,12 @@ class _AddTask extends State<AddTask> {
                         suffixIcon: Icon(Icons.event_note),
                         labelText: 'Choisir une date',
                       ),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 40)),
-                      initialDate: globals.task == null
+                      initialValue: globals.task == null
                           ? DateTime.now()
                           : globals.task?.date_echeance,
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 40)),
+                      initialDate: DateTime.now(),
                       //autovalidateMode: AutovalidateMode.always,
                       onDateSelected: (DateTime value) {
                         setState(() {
@@ -212,7 +213,7 @@ class _AddTask extends State<AddTask> {
                                 style: ElevatedButton.styleFrom(
                                   elevation: 5.0,
                                   backgroundColor:
-                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColorDark,
                                 ),
                                 child: Text(
                                   'Supprimer'.toUpperCase(),
