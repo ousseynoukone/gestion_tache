@@ -50,7 +50,7 @@ class _PasswordState extends State<Password> {
             onPressed: () {
               widget.onNext(1);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
             color: Colors.black,
@@ -58,7 +58,7 @@ class _PasswordState extends State<Password> {
         ),
         body: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 30.0,
             ),
             child: Column(
