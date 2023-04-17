@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express();
+let app = express();
 
 // link : https://deeppatel23.medium.com/rest-api-with-node-js-and-firebase-4d618f1bbc60
 
@@ -26,5 +26,4 @@ app.get('/', (req, res) => {
 
 
 
-app.listen(PORT, function () {
-console.log(`Demo project at: ${PORT}!`); });
+app.listen(PORT, function () { console.log(`Demo project at: ${PORT}!`); });

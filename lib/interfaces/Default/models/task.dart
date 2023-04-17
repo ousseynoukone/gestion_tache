@@ -12,14 +12,15 @@ class Task {
 
   @override
   String toString() {
-    // TODO: implement toString
     return " title = " + this.title;
   }
 
-  // factory Task.fromJson(Map<String, dynamic> json) {
-  //   return Task(
-  //     id: json['id'],
-  //     title: json['title'],
-  //   );
-  // }
+  factory Task.fromJson(Map<String, dynamic> json) {
+    var millis = 978296400000;
+    return Task(
+        id: json['id'],
+        title: json['title'],
+        description: json['description'],
+        date_echeance: DateTime.parse(json['date_echeance_second']));
+  }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
 import '../../../globals/globals.dart' as globals;
+import 'package:http/http.dart' as http;
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});
@@ -12,27 +14,12 @@ class Tasks extends StatefulWidget {
 }
 
 class _Tasks extends State<Tasks> {
-  List<Task> tasks = [];
-
-  List<Task> fetchTasks() {
-    return <Task>[
-      Task(
-          id: 1,
-          title: "title",
-          description: "description",
-          date_echeance: new DateTime.now().add(const Duration(days: 30))),
-      Task(
-          id: 2,
-          title: "title2",
-          description: "description2",
-          date_echeance: new DateTime.now().add(const Duration(days: 10)))
-    ];
-  }
+  late Future<List<Task>> tasks;
 
   @override
   void initState() {
     super.initState();
-    tasks = fetchTasks();
+    tasks = HttpTask.fetchTasks();
   }
 
   @override
@@ -58,12 +45,19 @@ class _Tasks extends State<Tasks> {
             ),
           ],
         ),
-        ListView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8),
-            itemCount: tasks.length,
-            itemBuilder: (BuildContext context, int index) {
-              return TaskItem(task: tasks[index]);
+        FutureBuilder<List<Task>>(
+            future: tasks,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(8),
+                    itemCount: snapshot.data?.length,
+                    itemBuilder: (context, index) {
+                      return TaskItem(task: snapshot.data!.elementAt(index));
+                    });
+              }
+              return const CircularProgressIndicator();
             }),
       ]),
     );
