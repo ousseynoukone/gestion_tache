@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
-import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
-import 'package:intl/intl.dart';
-import '../../globals/globals.dart' as globals;
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -14,26 +11,7 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-  ];
+  
 
   void _onItemTapped(int index) {
     setState(() {
