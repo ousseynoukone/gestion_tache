@@ -135,12 +135,12 @@ class _PasswordState extends State<Password> {
                                 globals.username, globals.password, context);
                           }
                         },
-                        child: Text(
-                          'Suivant'.toUpperCase(),
-                        ),
                         style: ElevatedButton.styleFrom(
                           elevation: 5.0,
                           backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                        child: Text(
+                          'Suivant'.toUpperCase(),
                         ),
                       ),
                     ],
