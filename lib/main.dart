@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/home.dart';
-import './globals/globals.dart' as globals;
 
 void main() {
-  globals.username = "";
-  globals.password = "";
-
   runApp(const MyApp());
 }
 
@@ -24,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 68, 21, 151),
         secondaryHeaderColor: Colors.white,
-        primaryColorDark : Colors.redAccent,
+        primaryColorDark: Colors.redAccent,
       ),
       //home: const Home(),
       home: const AddTask(),
