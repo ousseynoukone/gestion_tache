@@ -16,7 +16,6 @@ class Task {
   }
 
   factory Task.fromJson(Map<String, dynamic> json) {
-    var millis = 978296400000;
     return Task(
         id: json['id'],
         title: json['title'],
