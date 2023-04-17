@@ -8,7 +8,7 @@ exports.getTasks = async (req, res) => {
         let data = [];
 
         querySnapshot.forEach((doc) => {
-            let obj = { id: doc.id, ...doc.data()}
+            let obj = { id: doc.id, date_echeance_two: new Date(doc.data().date_echeance), ...doc.data()}
             data.push(obj);
           });
      res.status(201).json(data);
