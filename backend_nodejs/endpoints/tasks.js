@@ -1,5 +1,5 @@
 const { db } = require("../util/firebase");
-const { collection, getDocs, addDoc, updateDoc } = require("firebase/firestore"); 
+const { collection, getDocs, addDoc, updateDoc, doc } = require("firebase/firestore"); 
 
 exports.getTasks = async (req, res) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
