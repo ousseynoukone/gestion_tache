@@ -20,4 +20,17 @@ class HttpTask {
     // tasks.add(Task.fromJson(jsonDecode(response.body)));
     return tasks;
   }
+
+  static Future<http.Response> deleteTask(id) async {
+    String endpoint = "api/v1/taskDelete/$id";
+
+    final http.Response response = await http.delete(
+      Uri.parse(BASE_URL + endpoint),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    return response;
+  }
 }

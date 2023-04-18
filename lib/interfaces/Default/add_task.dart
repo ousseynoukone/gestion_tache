@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
+import 'package:http/http.dart';
 import '../../globals/globals.dart' as globals;
+import 'package:gestion_tache/http/http_task.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -56,6 +58,13 @@ class _AddTask extends State<AddTask> {
     }
 
     return hasLetter && hasOnlyAllowedChars;
+  }
+
+  void taskDeletion(id) {
+  //  print('ran ! ');
+    HttpTask.deleteTask(id);
+   
+    
   }
 
   @override
@@ -236,9 +245,7 @@ class _AddTask extends State<AddTask> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  if (_formGlobalKey.currentState!.validate()) {
-                                    // supprimer
-                                  }
+                                  taskDeletion(globals.task?.id);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   elevation: 5.0,
