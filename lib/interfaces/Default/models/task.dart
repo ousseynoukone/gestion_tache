@@ -12,15 +12,19 @@ class Task {
 
   @override
   String toString() {
-    return " title = " + this.title;
+    return " title = " +
+        this.title +
+        " description = " +
+        this.description +
+        " date_echeance = " +
+        this.date_echeance.toString();
   }
 
-
-  toBody(){
+  Map toBody() {
     return {
-        title: title,
-        description: description,
-        date_echeance: date_echeance
+      "title": title,
+      "description": description,
+      "date_echeance": date_echeance.toString()
     };
   }
 

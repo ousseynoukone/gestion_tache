@@ -25,13 +25,15 @@ class _AddTask extends State<AddTask> {
         context, MaterialPageRoute(builder: (context) => const Accueil()));
   }
 
+  /**
+   * permits to save the task
+   */
   void _saveTask() {
     Task task = Task(
         id: null,
         title: title,
         description: description,
-        date_echeance: date_echeance
-        );
+        date_echeance: date_echeance);
 
     HttpTask.addTask(task);
     _goBack();

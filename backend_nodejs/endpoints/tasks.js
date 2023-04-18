@@ -27,8 +27,8 @@ exports.getTasks = async (req, res) => {
 };
 
 
-exports.addTask = async (req, res) => {
-    console.log(req.body);
+exports.addTask = async (request, response) => {
+    console.log(request.body);
     const querySnapshot = await getDocs(collection(db, "tasks"));
     //const booksRef = db.collection('tasks');
     try{
@@ -39,12 +39,12 @@ exports.addTask = async (req, res) => {
           });
 
 
-        const docRef = await addDoc(collection(db, "users"), {
-            id: number,
-            ...req.body
-          });
+        // const docRef = await addDoc(collection(db, "tasks"), {
+        //     id: number + 1,
+        //     ...req.body
+        //   });
 
-        res.status(201).json({ response: docRef.id });
+        //res.status(201).json({ response: docRef.id });
         
     } catch (error) {
         return res

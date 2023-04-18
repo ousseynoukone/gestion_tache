@@ -21,7 +21,10 @@ class HttpTask {
   static Future<List<Task>> addTask(Task task) async {
     String endpoint = "api/v1/tasks";
     var url = Uri.parse(BASE_URL + endpoint);
-    final response = await http.post(url, body: task.toBody());
+
+    print(task.toBody());
+
+    await http.post(url, body: task.toBody());
 
     return fetchTasks();
   }
