@@ -30,6 +30,8 @@ class HttpTask {
     String endpoint = "api/v1/tasks";
     var url = Uri.parse(BASE_URL + endpoint);
 
+    print(task);
+
     await http.patch(url, body: task.toBodyUpdate());
   }
 }

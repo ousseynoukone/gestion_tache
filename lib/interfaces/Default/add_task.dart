@@ -28,10 +28,16 @@ class _AddTask extends State<AddTask> {
   void _updateTask() {
     Task task = Task(
         id: globals.task?.id,
-        title: title,
-        description: description,
+        title: globals.task!.title.length > title.length
+            ? globals.task!.title
+            : title,
+        description: globals.task!.description.length > description.length
+            ? globals.task!.description
+            : description,
         date_echeance: date_echeance,
         doc_id: globals.task?.doc_id);
+
+    //print(task);
 
     HttpTask.updateTask(task);
     _goBack();

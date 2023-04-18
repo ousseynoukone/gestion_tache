@@ -19,7 +19,11 @@ class Task {
         " description = " +
         this.description +
         " date_echeance = " +
-        this.date_echeance.toString();
+        this.date_echeance.toString() +
+        " id = " +
+        id.toString() +
+        " doc_id = " +
+        doc_id!;
   }
 
   Map toBody() {
@@ -30,10 +34,9 @@ class Task {
     };
   }
 
-
   Map toBodyUpdate() {
     return {
-      "id": id,
+      "id": id.toString(),
       "title": title,
       "description": description,
       "date_echeance": date_echeance.toString(),

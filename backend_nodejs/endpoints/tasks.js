@@ -61,7 +61,7 @@ exports.addTask = async (request, response) => {
 
 
 exports.updateTask = async (request, response) => {
-    console.log(request.body);
+    //console.log(request.body);
     try{
 
 
@@ -85,7 +85,7 @@ exports.updateTask = async (request, response) => {
         response.status(200).json({ success: true , statusCode: 201 });
         
     } catch (error) {
-        return res
+        return response
         .status(500)
         .json({ general: "Something went wrong, please try again"});          
     }

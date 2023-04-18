@@ -11,7 +11,6 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
   int _selectedIndex = 0;
-  
 
   void _onItemTapped(int index) {
     setState(() {
@@ -55,11 +54,13 @@ class _AccueilState extends State<Accueil> {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            ProgressIndicator(),
-            Tasks(),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ProgressIndicator(),
+              Tasks(),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomAppBar(
           height: 80.0,
@@ -149,4 +150,3 @@ class ProgressIndicator extends StatelessWidget {
     );
   }
 }
-
