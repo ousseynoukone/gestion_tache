@@ -30,7 +30,6 @@ exports.getTasks = async (req, res) => {
 exports.addTask = async (request, response) => {
     console.log(request.body);
     const querySnapshot = await getDocs(collection(db, "tasks"));
-    //const booksRef = db.collection('tasks');
     try{
         let number = 0;
 
@@ -39,12 +38,12 @@ exports.addTask = async (request, response) => {
           });
 
 
-        // const docRef = await addDoc(collection(db, "tasks"), {
-        //     id: number + 1,
-        //     ...req.body
-        //   });
+        const docRef = await addDoc(collection(db, "tasks"), {
+            id: number + 1,
+            ...request.body
+          });
 
-        //res.status(201).json({ response: docRef.id });
+        response.status(201).json({ response: docRef.id });
         
     } catch (error) {
         return res
