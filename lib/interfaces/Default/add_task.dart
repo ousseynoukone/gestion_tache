@@ -20,6 +20,17 @@ class _AddTask extends State<AddTask> {
   String description = "";
   DateTime date_echeance = DateTime.now();
 
+  @override
+  void initState() {
+    if (globals.task != null) {
+      setState(() {
+        title = globals.task!.title;
+        description = globals.task!.description;
+        date_echeance = globals.task!.date_echeance;
+      });
+    }
+  }
+
   void _goBack() {
     //pour que le task qui est dans global soit réinitialiser si on retourne a l'acceuil , autre il risque de conserver les donnés du precendent task et dés qu'on esssaye d'ajouter un task , c'est se task la qui va se charger
     globals.task = null;
@@ -35,12 +46,8 @@ class _AddTask extends State<AddTask> {
   void _updateTask() {
     Task task = Task(
         id: globals.task?.id,
-        title: globals.task!.title.length > title.length
-            ? globals.task!.title
-            : title,
-        description: globals.task!.description.length > description.length
-            ? globals.task!.description
-            : description,
+        title: title,
+        description: description,
         date_echeance: date_echeance,
         doc_id: globals.task?.doc_id);
 
@@ -128,8 +135,7 @@ class _AddTask extends State<AddTask> {
                           title = value;
                         });
                       },
-                      initialValue:
-                          globals.task == null ? "" : globals.task?.title,
+                      initialValue: title,
                       validator: (value) {
                         if (value?.trim() == null ||
                             value!.isEmpty ||
@@ -165,8 +171,7 @@ class _AddTask extends State<AddTask> {
                     TextFormField(
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
-                      initialValue:
-                          globals.task == null ? "" : globals.task?.description,
+                      initialValue: description,
                       onChanged: (value) {
                         setState(() {
                           description = value;
@@ -215,9 +220,7 @@ class _AddTask extends State<AddTask> {
                         suffixIcon: Icon(Icons.event_note),
                         labelText: 'Choisir une date',
                       ),
-                      initialValue: globals.task == null
-                          ? DateTime.now()
-                          : globals.task?.date_echeance,
+                      initialValue: date_echeance,
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 40)),
                       initialDate: DateTime.now(),
