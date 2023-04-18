@@ -15,8 +15,12 @@ exports.getTasks = async (req, res) => {
             let obj = { id: doc.id, date_echeance_second: date, doc_id: doc_id, ...doc.data()}
             data.push(obj);
           });
-     res.status(201).json(data);
-        
+          if (res) {
+            res.status(201).json(data);
+          } else {
+            console.error('res object is undefined');
+          }
+                  
     } catch (error) {
         console.log(error);
      //   return res
@@ -48,10 +52,10 @@ exports.numberItem = async (req, res) => {
          res.status(201).json({ number : number });
             
         } catch (error) {
-            //console.log(error);
-            return res
-            .status(500)
-            .json({ general: "Something went wrong, please try again"});          
+        console.log(error); 
+          //  return res
+          //  .status(500)
+          //  .json({ general: "Something went wrong, please try again"});          
         }
 
     
