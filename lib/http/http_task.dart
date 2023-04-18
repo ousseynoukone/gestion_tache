@@ -25,4 +25,11 @@ class HttpTask {
 
     await http.post(url, body: task.toBody());
   }
+
+  static void updateTask(Task task) async {
+    String endpoint = "api/v1/tasks";
+    var url = Uri.parse(BASE_URL + endpoint);
+
+    await http.patch(url, body: task.toBodyUpdate());
+  }
 }

@@ -25,6 +25,14 @@ class _AddTask extends State<AddTask> {
         context, MaterialPageRoute(builder: (context) => const Accueil()));
   }
 
+  void _updateTask() {
+    Task task = Task(
+        id: globals.task?.id,
+        title: title,
+        description: description,
+        date_echeance: date_echeance, doc_id: globals.task?.doc_id);
+  }
+
   /**
    * permits to save the task
    */
@@ -106,9 +114,9 @@ class _AddTask extends State<AddTask> {
                       initialValue:
                           globals.task == null ? "" : globals.task?.title,
                       validator: (value) {
-                        if (title.trim() == null ||
-                            title.isEmpty ||
-                            isValidText(title.trim()) == false) {
+                        if (value?.trim() == null ||
+                            value!.isEmpty ||
+                            isValidText(value.trim()) == false) {
                           return 'Saisir un titre valide';
                         }
                         return null;
@@ -148,9 +156,9 @@ class _AddTask extends State<AddTask> {
                         });
                       },
                       validator: (value) {
-                        if (description.trim() == null ||
-                            description.isEmpty ||
-                            isValidText(description.trim()) == false) {
+                        if (value?.trim() == null ||
+                            value!.isEmpty ||
+                            isValidText(value.trim()) == false) {
                           return 'Saisir une description valide';
                         }
                         return null;
@@ -228,6 +236,7 @@ class _AddTask extends State<AddTask> {
                                 onPressed: () {
                                   if (_formGlobalKey.currentState!.validate()) {
                                     // modifier
+                                    _updateTask();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

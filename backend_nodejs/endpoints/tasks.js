@@ -1,5 +1,5 @@
 const { db } = require("../util/firebase");
-const { collection, getDocs, addDoc } = require("firebase/firestore"); 
+const { collection, getDocs, addDoc, updateDoc } = require("firebase/firestore"); 
 
 exports.getTasks = async (req, res) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
@@ -8,12 +8,13 @@ exports.getTasks = async (req, res) => {
         let data = [];
 
         querySnapshot.forEach((doc) => {
+            let doc_id = doc.ref.id ;
             let t = doc.data()["date_echeance"] ;
             let date = new Date(t.seconds * 1000 + t.nanoseconds / 1000000);
             //.toLocaleTimeString('en-us', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
             //console.log(date);
-            let obj = { id: doc.id, date_echeance_second: date, ...doc.data()}
+            let obj = { id: doc.id, date_echeance_second: date, doc_id: doc_id, ...doc.data()}
             data.push(obj);
           });
      res.status(201).json(data);
@@ -39,8 +40,6 @@ exports.addTask = async (request, response) => {
 
 
         const date = new Date(request.body.date_echeance);
-        const timestamp = date.getTime();
-        //const in_seconds = 
 
         const docRef = await addDoc(collection(db, "tasks"), {
             id: number + 1,
@@ -52,6 +51,38 @@ exports.addTask = async (request, response) => {
           let data = this.getTasks()
 
         response.status(200).json(data);
+        
+    } catch (error) {
+        return res
+        .status(500)
+        .json({ general: "Something went wrong, please try again"});          
+    }
+};
+
+
+exports.updateTask = async (request, response) => {
+    console.log(request.body);
+    try{
+
+
+        const date = new Date(request.body.date_echeance);
+
+        const docRef = doc(db, "tasks", request.body.doc_id);
+
+        const data = {
+            id: request.body.id,
+            title: request.body.title,
+            description: request.body.description,
+            date_echeance: date
+        };
+
+          updateDoc(docRef, data)
+                .then(docRef => {
+                    console.log("A New Document Field has been added to an existing document");
+                })
+
+
+        response.status(200).json({ success: true , statusCode: 201 });
         
     } catch (error) {
         return res
