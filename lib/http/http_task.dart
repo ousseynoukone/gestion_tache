@@ -12,7 +12,7 @@ class HttpTask {
 
     List jsonParsed = jsonDecode(response.body);
     for (int i = 0; i < jsonParsed.length; i++) {
-      print(jsonParsed[i]);
+      //print(jsonParsed[i]);
       tasks.add(Task.fromJson(jsonParsed[i]));
     }
     return tasks;

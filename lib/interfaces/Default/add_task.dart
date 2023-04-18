@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
@@ -25,13 +26,15 @@ class _AddTask extends State<AddTask> {
   }
 
   void _saveTask() {
-    Task t = Task(
+    Task task = Task(
         id: null,
         title: title,
         description: description,
-        date_echeance: date_echeance);
+        date_echeance: date_echeance
+        );
 
-    print(t);
+    HttpTask.addTask(task);
+    _goBack();
   }
 
   bool isValidText(String text) {
