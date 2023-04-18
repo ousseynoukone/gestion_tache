@@ -15,9 +15,14 @@ class HttpTask {
       print(jsonParsed[i]);
       tasks.add(Task.fromJson(jsonParsed[i]));
     }
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    // tasks.add(Task.fromJson(jsonDecode(response.body)));
     return tasks;
+  }
+
+  static Future<List<Task>> addTask(Task task) async {
+    String endpoint = "api/v1/tasks";
+    var url = Uri.parse(BASE_URL + endpoint);
+    final response = await http.post(url, body: task.toBody());
+
+    return fetchTasks();
   }
 }

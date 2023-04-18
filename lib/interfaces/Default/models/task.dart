@@ -15,6 +15,15 @@ class Task {
     return " title = " + this.title;
   }
 
+
+  toBody(){
+    return {
+        title: title,
+        description: description,
+        date_echeance: date_echeance
+    };
+  }
+
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
         id: json['id'],

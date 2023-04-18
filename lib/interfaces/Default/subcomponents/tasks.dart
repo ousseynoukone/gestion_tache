@@ -4,7 +4,7 @@ import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
 import '../../../globals/globals.dart' as globals;
-import 'package:http/http.dart' as http;
+
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});
@@ -14,12 +14,12 @@ class Tasks extends StatefulWidget {
 }
 
 class _Tasks extends State<Tasks> {
-  late Future<List<Task>> tasks;
+  //late Future<List<Task>> tasks;
 
   @override
   void initState() {
     super.initState();
-    tasks = HttpTask.fetchTasks();
+    globals.tasks = HttpTask.fetchTasks();
   }
 
   @override
@@ -46,7 +46,7 @@ class _Tasks extends State<Tasks> {
           ],
         ),
         FutureBuilder<List<Task>>(
-            future: tasks,
+            future: globals.tasks,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(

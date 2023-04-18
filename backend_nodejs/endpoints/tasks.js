@@ -1,5 +1,5 @@
 const { db } = require("../util/firebase");
-const { collection, getDocs } = require("firebase/firestore"); 
+const { collection, getDocs, addDoc } = require("firebase/firestore"); 
 
 exports.getTasks = async (req, res) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
@@ -20,6 +20,33 @@ exports.getTasks = async (req, res) => {
         
     } catch (error) {
         console.log(error);
+        return res
+        .status(500)
+        .json({ general: "Something went wrong, please try again"});          
+    }
+};
+
+
+exports.addTask = async (req, res) => {
+    console.log(req.body);
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    //const booksRef = db.collection('tasks');
+    try{
+        let number = 0;
+
+        querySnapshot.forEach((doc) => {
+           number += 1;
+          });
+
+
+        const docRef = await addDoc(collection(db, "users"), {
+            id: number,
+            ...req.body
+          });
+
+        res.status(201).json({ response: docRef.id });
+        
+    } catch (error) {
         return res
         .status(500)
         .json({ general: "Something went wrong, please try again"});          
