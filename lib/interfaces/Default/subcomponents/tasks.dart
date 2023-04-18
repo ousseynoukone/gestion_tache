@@ -3,8 +3,8 @@ import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
 import '../../../globals/globals.dart' as globals;
-
 
 class Tasks extends StatefulWidget {
   const Tasks({super.key});
@@ -19,7 +19,10 @@ class _Tasks extends State<Tasks> {
   @override
   void initState() {
     super.initState();
-    globals.tasks = HttpTask.fetchTasks();
+    var timer = Timer(const Duration(seconds: 2),
+        () => globals.tasks = HttpTask.fetchTasks());
+
+    timer.cancel();
   }
 
   @override

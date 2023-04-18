@@ -38,12 +38,20 @@ exports.addTask = async (request, response) => {
           });
 
 
+        const date = new Date(request.body.date_echeance);
+        const timestamp = date.getTime();
+        //const in_seconds = 
+
         const docRef = await addDoc(collection(db, "tasks"), {
             id: number + 1,
-            ...request.body
+            title: request.body.title,
+            description: request.body.description,
+            date_echeance: date
           });
 
-        response.status(201).json({ response: docRef.id });
+          let data = this.getTasks()
+
+        response.status(200).json(data);
         
     } catch (error) {
         return res
