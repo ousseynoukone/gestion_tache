@@ -1,5 +1,5 @@
 class Task {
-  final int? id;
+  final String? id;
   final String title;
   final String description;
   String? doc_id;
@@ -46,7 +46,7 @@ class Task {
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-        id: json['id'],
+        id: json['id'].toString(),
         doc_id: json["doc_id"],
         title: json['title'],
         description: json['description'],
