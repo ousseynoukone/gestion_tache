@@ -32,20 +32,6 @@ class _Tasks extends State<Tasks> {
               "Liste des Taches",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  globals.tasks = HttpTask.fetchTasks();
-                });
-              },
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.white),
-              ),
-              child: Text(
-                "Refresh",
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-            ),
           ],
         ),
         FutureBuilder<List<Task>>(

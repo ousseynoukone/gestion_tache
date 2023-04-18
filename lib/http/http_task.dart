@@ -1,6 +1,7 @@
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../globals/globals.dart' as globals;
 
 class HttpTask {
   static const String BASE_URL = "http://10.0.2.2:5050/";
@@ -12,9 +13,9 @@ class HttpTask {
 
     List jsonParsed = jsonDecode(response.body);
     for (int i = 0; i < jsonParsed.length; i++) {
+      //print(jsonParsed[i]);
       tasks.add(Task.fromJson(jsonParsed[i]));
     }
-    
     return tasks;
   }
 
@@ -29,27 +30,22 @@ class HttpTask {
   static Future<http.Response> deleteTask(id) async {
     String endpoint = "api/v1/taskDelete/$id";
 
-    final http.Response response = await http.delete(
+    return await http.delete(
       Uri.parse(BASE_URL + endpoint),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
     );
-
-    return response;
   }
 
-  static void addTask(Task task) async {
+  static Future<http.Response> addTask(Task task) async {
     String endpoint = "api/v1/tasks";
     var url = Uri.parse(BASE_URL + endpoint);
 
-    await http.post(url, body: task.toBody());
+    return await http.post(url, body: task.toBody());
   }
 
-  static void updateTask(Task task) async {
+  static Future<http.Response> updateTask(Task task) async {
     String endpoint = "api/v1/tasks";
     var url = Uri.parse(BASE_URL + endpoint);
 
-    await http.patch(url, body: task.toBodyUpdate());
+    return await http.patch(url, body: task.toBodyUpdate());
   }
 }

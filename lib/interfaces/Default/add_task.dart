@@ -6,6 +6,7 @@ import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:http/http.dart';
 import '../../globals/globals.dart' as globals;
 import 'package:gestion_tache/http/http_task.dart';
+import 'dart:convert';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -39,12 +40,13 @@ class _AddTask extends State<AddTask> {
         context, MaterialPageRoute(builder: (context) => const Accueil()));
   }
 
-  void _taskDeletion() {
-    HttpTask.deleteTask(globals.task?.doc_id);
-    _goBack();
+  void _taskDeletion() async {
+    var r = await HttpTask.deleteTask(globals.task?.doc_id);
+   //  print(r.body);
+    r.statusCode != 500 ? _goBack() : print("Echec de la suppresion ! ");
   }
 
-  void _updateTask() {
+  void _updateTask() async {
     Task task = Task(
         id: globals.task?.id,
         title: title,
@@ -54,19 +56,20 @@ class _AddTask extends State<AddTask> {
 
     //print(task);
 
-    HttpTask.updateTask(task);
-    _goBack();
+    var r = await HttpTask.updateTask(task);
+    r.statusCode != 500 ? _goBack() : print("Echec de la mise a jour ! ");
   }
 
-  void _saveTask() {
+  void _saveTask() async {
     Task task = Task(
         id: null,
         title: title,
         description: description,
         date_echeance: date_echeance);
 
-    HttpTask.addTask(task);
-    _goBack();
+    var r = await HttpTask.addTask(task);
+
+    r.statusCode != 500 ? _goBack() : print("erreur lors de l'ajaout ! ");
   }
 
   bool isValidText(String text) {

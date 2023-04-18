@@ -4,7 +4,6 @@ const { collection, getDocs, addDoc, updateDoc, doc , deleteDoc } = require("fir
 
 exports.getTasks = async (req, response) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
-    //const booksRef = db.collection('tasks');
     try{
         let data = [];
 
@@ -16,7 +15,11 @@ exports.getTasks = async (req, response) => {
             data.push(obj);
           });
             
-          response.status(201).json(data);
+          if (response) {
+            response.status(201).json(data);
+          } else {
+            console.log("Response is undefined");
+          }
                             
     } catch (error) {
         console.log(error);
@@ -29,11 +32,15 @@ exports.getTasks = async (req, response) => {
 
 
 
-exports.deleteTask = async (req, res) => {
-    //console.log(req.params.id )
-  return  await deleteDoc(doc(db, "tasks",req.params.id ));
 
+exports.deleteTask = async (request, response) => {
+    try{
+   await deleteDoc(doc(db, "tasks",request.params.id ));
+   return response.status(200).json({ message: "La tâche a été supprimée avec succès." });
 
+}catch(error){
+    return response.status(500).json({ message: "Erreur lors de la suppresion !  " });
+}
 }
   
 exports.numberItem = async (req, res) => {
@@ -47,7 +54,7 @@ exports.numberItem = async (req, res) => {
                 number += 1;
               });
          res.status(201).json({ number : number });
-            
+        
         } catch (error) {
         console.log(error); 
           //  return res
@@ -80,14 +87,19 @@ exports.addTask = async (request, response) => {
             date_echeance: date
           });
 
-          let data = this.getTasks()
+        return response.status(201).json({ message: "La tâche a été ajoutée avec succès." });
 
-        response.status(200).json(data);
+
+
+
+        // let data = await this.getTasks(req,response)
+        // response.status(200).json(data);
+        // console.log(data);
         
     } catch (error) {
         return response
         .status(500)
-        .json({ general: "Something went wrong, please try again"});          
+        .json({ general: "Echec de j'aout de tache ! "});          
     }
 };
 
@@ -113,7 +125,7 @@ exports.updateTask = async (request, response) => {
                 })
 
 
-        response.status(200).json({ success: true , statusCode: 201 });
+        return response.status(201).json({ success: true , statusCode: 201 });
         
     } catch (error) {
         return response

@@ -1,7 +1,10 @@
+//import 'dart:js_util';
+
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
 import 'package:gestion_tache/http/http_task.dart';
+import 'package:gestion_tache/globals/globals.dart' as globals;
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -11,15 +14,15 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
-  var number;
-
   void initState() {
     super.initState();
     //globals.tasks =
+    print("global=" + globals.number.toString());
 
     HttpTask.fetchTasksNumber().then((value) {
       setState(() {
-        number = value;
+        print(value);
+        globals.number = value;
       });
     });
   }
@@ -69,6 +72,7 @@ class _AccueilState extends State<Accueil> {
           ],
         ),
         body: SingleChildScrollView(
+          
           child: Column(
             children: [
               Container(
@@ -96,7 +100,9 @@ class _AccueilState extends State<Accueil> {
                               height: 15,
                             ),
                             Text(
-                              number != null ? '$number' : '0',
+                              globals.number != null
+                                  ? "${globals.number}"
+                                  : '0',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
