@@ -25,6 +25,28 @@ exports.getTasks = async (req, res) => {
 };
 
 
+
+
+exports.numberItem = async (req, res) => {
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    //const booksRef = db.collection('tasks');
+    try{
+        let number = 0;
+
+        querySnapshot.forEach((doc) => {
+            number += 1;
+          });
+     res.status(201).json({ number : number });
+        
+    } catch (error) {
+        //console.log(error);
+        return res
+        .status(500)
+        .json({ general: "Something went wrong, please try again"});          
+    }
+};
+
+
 exports.addTask = async (request, response) => {
     console.log(request.body);
     const querySnapshot = await getDocs(collection(db, "tasks"));

@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-const { getTasks, addTask, updateTask } = require("./endpoints/tasks");
+const { getTasks, addTask, updateTask, numberItem } = require("./endpoints/tasks");
 
 
 const PORT = process.env.PORT || 5050;
@@ -19,6 +19,8 @@ const PORT = process.env.PORT || 5050;
 app.get("/api/v1/tasks", getTasks);
 
 app.post("/api/v1/tasks", addTask);
+
+app.get("/api/v1/tasks/number", numberItem);
 
 app.patch("/api/v1/tasks", updateTask);
 
