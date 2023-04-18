@@ -1,5 +1,6 @@
 const { db } = require("../util/firebase");
 const { collection, getDocs } = require("firebase/firestore"); 
+const { doc, deleteDoc } = require("firebase/firestore");
 
 exports.getTasks = async (req, res) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
@@ -25,3 +26,14 @@ exports.getTasks = async (req, res) => {
         .json({ general: "Something went wrong, please try again"});          
     }
 };
+
+
+
+
+exports.deleteTask = async (req, res) => {
+    console.log(res.params.id )
+  return  await deleteDoc(doc(db, "tasks",res.params.id ));
+
+
+}
+  

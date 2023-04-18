@@ -3,13 +3,15 @@ let app = express();
 
 // link : https://deeppatel23.medium.com/rest-api-with-node-js-and-firebase-4d618f1bbc60
 
-const { getTasks } = require("./endpoints/tasks");
+const { getTasks, deleteTask } = require("./endpoints/tasks");
 
 
 const PORT = process.env.PORT || 5050;
 
 
 app.get("/api/v1/tasks", getTasks);
+
+app.delete("/api/v1/taskDelete/id",deleteTask);
 
 
 // make the request to delete 
