@@ -2,7 +2,7 @@ const { db } = require("../util/firebase");
 const { collection, getDocs, addDoc, updateDoc, doc , deleteDoc } = require("firebase/firestore"); 
 
 
-exports.getTasks = async (req, res) => {
+exports.getTasks = async (req, response) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
     //const booksRef = db.collection('tasks');
     try{
@@ -15,12 +15,9 @@ exports.getTasks = async (req, res) => {
             let obj = { id: doc.id, date_echeance_second: date, doc_id: doc_id, ...doc.data()}
             data.push(obj);
           });
-          if (res) {
-            res.status(201).json(data);
-          } else {
-            console.error('res object is undefined');
-          }
-                  
+            
+          response.status(201).json(data);
+                            
     } catch (error) {
         console.log(error);
      //   return res
@@ -33,7 +30,7 @@ exports.getTasks = async (req, res) => {
 
 
 exports.deleteTask = async (req, res) => {
-    console.log(req.params.id )
+    //console.log(req.params.id )
   return  await deleteDoc(doc(db, "tasks",req.params.id ));
 
 
@@ -112,7 +109,7 @@ exports.updateTask = async (request, response) => {
 
           updateDoc(docRef, data)
                 .then(docRef => {
-                    console.log("An Update Has Been Done");
+                    //console.log("An Update Has Been Done");
                 })
 
 
