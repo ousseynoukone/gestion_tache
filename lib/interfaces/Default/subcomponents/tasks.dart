@@ -13,17 +13,11 @@ class Tasks extends StatefulWidget {
 }
 
 class _Tasks extends State<Tasks> {
-  Future<List<Task>>? tasks;
-
   @override
   void initState() {
-  //  print('init');
+    //  print('init');
     super.initState();
-    //globals.tasks =
-
-    setState(() {
-      tasks = HttpTask.fetchTasks();
-    });
+    globals.tasks = HttpTask.fetchTasks();
   }
 
   @override
@@ -49,8 +43,9 @@ class _Tasks extends State<Tasks> {
             ),
           ],
         ),
+        
         FutureBuilder<List<Task>>(
-            future: tasks,
+            future: globals.tasks,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(

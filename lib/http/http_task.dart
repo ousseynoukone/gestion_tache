@@ -7,7 +7,6 @@ class HttpTask {
   static const String BASE_URL = "http://10.0.2.2:5050/";
 
   static Future<List<Task>> fetchTasks() async {
-
     String endpoint = "api/v1/tasks";
     List<Task> tasks = [];
     final response = await http.get(Uri.parse(BASE_URL + endpoint));
@@ -17,15 +16,9 @@ class HttpTask {
       //print(jsonParsed[i]);
       tasks.add(Task.fromJson(jsonParsed[i]));
     }
+    
     return tasks;
   }
-
-
-
-
-
-
-
 
   static Future<int> fetchTasksNumber() async {
     String endpoint1 = "api/v1/tasks/number";
@@ -34,12 +27,6 @@ class HttpTask {
     var number = json.decode(response1.body);
     return number['number'];
   }
-
-
-
-
-
-
 
   static Future<http.Response> deleteTask(id) async {
     String endpoint = "api/v1/taskDelete/$id";

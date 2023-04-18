@@ -22,6 +22,7 @@ class _AddTask extends State<AddTask> {
 
   @override
   void initState() {
+    super.initState();
     if (globals.task != null) {
       setState(() {
         title = globals.task!.title;
@@ -57,9 +58,6 @@ class _AddTask extends State<AddTask> {
     _goBack();
   }
 
-  /**
-   * permits to save the task
-   */
   void _saveTask() {
     Task task = Task(
         id: null,
