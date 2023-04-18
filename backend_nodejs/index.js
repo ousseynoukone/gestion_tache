@@ -17,20 +17,10 @@ const PORT = process.env.PORT || 5050;
 
 
 app.get("/api/v1/tasks", getTasks);
-
 app.delete("/api/v1/taskDelete/:id",deleteTask);
 app.post("/api/v1/tasks", addTask);
-
 app.get("/api/v1/tasks/number", numberItem);
-
 app.patch("/api/v1/tasks", updateTask);
-
-
-// make the request to delete 
-
-
-// make the request to update 
-
 
 
 app.get('/', (req, res) => {

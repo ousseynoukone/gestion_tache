@@ -61,7 +61,7 @@ exports.numberItem = async (req, res) => {
 
 
 exports.addTask = async (request, response) => {
-    console.log(request.body);
+    //console.log(request.body);
     const querySnapshot = await getDocs(collection(db, "tasks"));
     try{
         let number = 0;
@@ -85,7 +85,7 @@ exports.addTask = async (request, response) => {
         response.status(200).json(data);
         
     } catch (error) {
-        return res
+        return response
         .status(500)
         .json({ general: "Something went wrong, please try again"});          
     }
