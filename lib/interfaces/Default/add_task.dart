@@ -27,6 +27,11 @@ class _AddTask extends State<AddTask> {
         context, MaterialPageRoute(builder: (context) => const Accueil()));
   }
 
+  void _taskDeletion() {
+    HttpTask.deleteTask(globals.task?.doc_id);
+    _goBack();
+  }
+
   void _updateTask() {
     Task task = Task(
         id: globals.task?.id,
@@ -81,13 +86,6 @@ class _AddTask extends State<AddTask> {
     }
 
     return hasLetter && hasOnlyAllowedChars;
-  }
-
-  void taskDeletion() {
-  //  print('ran ! ');
-    HttpTask.deleteTask(globals.task?.doc_id);
-   
-    
   }
 
   @override
@@ -269,7 +267,7 @@ class _AddTask extends State<AddTask> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  taskDeletion();
+                                  _taskDeletion();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   elevation: 5.0,

@@ -18,10 +18,10 @@ exports.getTasks = async (req, res) => {
      res.status(201).json(data);
         
     } catch (error) {
-        //console.log(error);
-        return res
-        .status(500)
-        .json({ general: "Something went wrong, please try again"});          
+        console.log(error);
+     //   return res
+      //  .status(500)
+        //.json({ general: "Something went wrong, please try again"});          
     }
 };
 
@@ -38,20 +38,24 @@ exports.deleteTask = async (req, res) => {
 exports.numberItem = async (req, res) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
     //const booksRef = db.collection('tasks');
-    try{
-        let number = 0;
+   
+        try{
+            let number = 0;
+    
+            querySnapshot.forEach((doc) => {
+                number += 1;
+              });
+         res.status(201).json({ number : number });
+            
+        } catch (error) {
+            //console.log(error);
+            return res
+            .status(500)
+            .json({ general: "Something went wrong, please try again"});          
+        }
 
-        querySnapshot.forEach((doc) => {
-            number += 1;
-          });
-     res.status(201).json({ number : number });
-        
-    } catch (error) {
-        //console.log(error);
-        return res
-        .status(500)
-        .json({ general: "Something went wrong, please try again"});          
-    }
+    
+
 };
 
 
@@ -90,7 +94,6 @@ exports.addTask = async (request, response) => {
 exports.updateTask = async (request, response) => {
     //console.log(request.body);
     try{
-
 
         const date = new Date(request.body.date_echeance);
 
