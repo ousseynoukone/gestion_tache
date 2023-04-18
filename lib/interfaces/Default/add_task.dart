@@ -30,7 +30,11 @@ class _AddTask extends State<AddTask> {
         id: globals.task?.id,
         title: title,
         description: description,
-        date_echeance: date_echeance, doc_id: globals.task?.doc_id);
+        date_echeance: date_echeance,
+        doc_id: globals.task?.doc_id);
+
+    HttpTask.updateTask(task);
+    _goBack();
   }
 
   /**
