@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../globals/globals.dart' as globals;
 
 class Tasks extends StatefulWidget {
-  const Tasks({super.key});
+  Tasks({super.key});
 
   @override
   State<Tasks> createState() => _Tasks();
@@ -25,25 +25,29 @@ class _Tasks extends State<Tasks> {
     return Container(
       margin: EdgeInsets.all(10.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               "Liste des Taches",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
             ElevatedButton(
-              onPressed: null,
-              style: ButtonStyle(
+              onPressed: () {
+                setState(() {
+                  globals.tasks = HttpTask.fetchTasks();
+                });
+              },
+              style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.white),
               ),
               child: Text(
-                "Voir Tout",
+                "Refresh",
+                style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ),
           ],
         ),
-        
         FutureBuilder<List<Task>>(
             future: globals.tasks,
             builder: (context, snapshot) {
