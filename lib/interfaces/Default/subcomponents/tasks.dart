@@ -3,7 +3,6 @@ import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
 import '../../../globals/globals.dart' as globals;
 
 class Tasks extends StatefulWidget {
@@ -14,15 +13,16 @@ class Tasks extends StatefulWidget {
 }
 
 class _Tasks extends State<Tasks> {
-  //late Future<List<Task>> tasks;
+  Future<List<Task>>? tasks;
 
   @override
   void initState() {
     super.initState();
-    var timer = Timer(const Duration(seconds: 2),
-        () => globals.tasks = HttpTask.fetchTasks());
+    //globals.tasks =
 
-    timer.cancel();
+    setState(() {
+      tasks = HttpTask.fetchTasks();
+    });
   }
 
   @override
@@ -49,7 +49,7 @@ class _Tasks extends State<Tasks> {
           ],
         ),
         FutureBuilder<List<Task>>(
-            future: globals.tasks,
+            future: tasks,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
