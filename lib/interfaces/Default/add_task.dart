@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
@@ -26,14 +27,36 @@ class _AddTask extends State<AddTask> {
         context, MaterialPageRoute(builder: (context) => const Accueil()));
   }
 
+  void _updateTask() {
+    Task task = Task(
+        id: globals.task?.id,
+        title: globals.task!.title.length > title.length
+            ? globals.task!.title
+            : title,
+        description: globals.task!.description.length > description.length
+            ? globals.task!.description
+            : description,
+        date_echeance: date_echeance,
+        doc_id: globals.task?.doc_id);
+
+    //print(task);
+
+    HttpTask.updateTask(task);
+    _goBack();
+  }
+
+  /**
+   * permits to save the task
+   */
   void _saveTask() {
-    Task t = Task(
+    Task task = Task(
         id: null,
         title: title,
         description: description,
         date_echeance: date_echeance);
 
-    print(t);
+    HttpTask.addTask(task);
+    _goBack();
   }
 
   bool isValidText(String text) {
@@ -60,9 +83,9 @@ class _AddTask extends State<AddTask> {
     return hasLetter && hasOnlyAllowedChars;
   }
 
-  void taskDeletion(id) {
+  void taskDeletion() {
   //  print('ran ! ');
-    HttpTask.deleteTask(id);
+    HttpTask.deleteTask(globals.task?.doc_id);
    
     
   }
@@ -110,9 +133,9 @@ class _AddTask extends State<AddTask> {
                       initialValue:
                           globals.task == null ? "" : globals.task?.title,
                       validator: (value) {
-                        if (title.trim() == null ||
-                            title.isEmpty ||
-                            isValidText(title.trim()) == false) {
+                        if (value?.trim() == null ||
+                            value!.isEmpty ||
+                            isValidText(value.trim()) == false) {
                           return 'Saisir un titre valide';
                         }
                         return null;
@@ -152,9 +175,9 @@ class _AddTask extends State<AddTask> {
                         });
                       },
                       validator: (value) {
-                        if (description.trim() == null ||
-                            description.isEmpty ||
-                            isValidText(description.trim()) == false) {
+                        if (value?.trim() == null ||
+                            value!.isEmpty ||
+                            isValidText(value.trim()) == false) {
                           return 'Saisir une description valide';
                         }
                         return null;
@@ -232,6 +255,7 @@ class _AddTask extends State<AddTask> {
                                 onPressed: () {
                                   if (_formGlobalKey.currentState!.validate()) {
                                     // modifier
+                                    _updateTask();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -245,7 +269,7 @@ class _AddTask extends State<AddTask> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  taskDeletion(globals.task?.id);
+                                  taskDeletion();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   elevation: 5.0,

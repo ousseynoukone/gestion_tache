@@ -1,6 +1,7 @@
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../globals/globals.dart' as globals;
 
 class HttpTask {
   static const String BASE_URL = "http://10.0.2.2:5050/";
@@ -12,12 +13,9 @@ class HttpTask {
 
     List jsonParsed = jsonDecode(response.body);
     for (int i = 0; i < jsonParsed.length; i++) {
-      print(jsonParsed[i]);
+      //print(jsonParsed[i]);
       tasks.add(Task.fromJson(jsonParsed[i]));
     }
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    // tasks.add(Task.fromJson(jsonDecode(response.body)));
     return tasks;
   }
 
@@ -32,5 +30,18 @@ class HttpTask {
     );
 
     return response;
+}
+  static void addTask(Task task) async {
+    String endpoint = "api/v1/tasks";
+    var url = Uri.parse(BASE_URL + endpoint);
+
+    await http.post(url, body: task.toBody());
+  }
+
+  static void updateTask(Task task) async {
+    String endpoint = "api/v1/tasks";
+    var url = Uri.parse(BASE_URL + endpoint);
+
+    await http.patch(url, body: task.toBodyUpdate());
   }
 }
