@@ -15,12 +15,16 @@ class _AuthState extends State<Auth> {
 
   String adr_email = "";
   final RegExp emailRegExp = RegExp(r"[a-z0-9\._-]+@[a-z0-9\._-]+\.[a-z]+");
-
+  @override
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
         body: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
@@ -103,10 +107,32 @@ class _AuthState extends State<Auth> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      globals.errorMessage != null
-                          ? Text("${globals.errorMessage}",
-                              style: const TextStyle(color: Colors.red))
-                          : const Text(" "),
+                      Text(
+                        () {
+                          if (globals.errorMessage != null) {
+                            var errorMessage = globals.errorMessage!;
+                            globals.errorMessage = null;
+                            return errorMessage;
+                          } else {
+                            return "";
+                          }
+                        }(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 148, 0, 0)),
+                      ),
+                      Text(
+                        () {
+                          if (globals.successMessage != null) {
+                            var successMessage = globals.successMessage!;
+                            globals.successMessage = null;
+                            return successMessage;
+                          } else {
+                            return "";
+                          }
+                        }(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 52, 114, 2)),
+                      ),
                       Container(
                         constraints:
                             const BoxConstraints(minWidth: 350, minHeight: 100),
@@ -114,7 +140,8 @@ class _AuthState extends State<Auth> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: ElevatedButton(
                                 onPressed: adr_email.isEmpty ||
                                         !emailRegExp.hasMatch(adr_email)
@@ -143,7 +170,8 @@ class _AuthState extends State<Auth> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
                               child: ElevatedButton(
                                 onPressed: () {
                                   print("pressed ! ");
@@ -151,7 +179,8 @@ class _AuthState extends State<Auth> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Register()));
+                                          builder: (context) =>
+                                              const Register()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   elevation: 5.0,

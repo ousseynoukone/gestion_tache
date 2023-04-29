@@ -1,10 +1,13 @@
 //import 'dart:js_util';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
 import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/globals/globals.dart' as globals;
+
+import '../auth/auth.dart';
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -64,9 +67,13 @@ class _AccueilState extends State<Accueil> {
           actions: [
             IconButton(
               style: const ButtonStyle(),
-              onPressed: null,
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Auth()));
+              },
               icon: const Icon(
-                Icons.notifications_none,
+                Icons.logout_rounded,
               ),
               color: Theme.of(context).primaryColor,
             ),
@@ -82,7 +89,8 @@ class _AccueilState extends State<Accueil> {
                   child: Container(
                     padding: const EdgeInsets.all(10.0),
                     alignment: Alignment.center,
-                    constraints: const BoxConstraints(minWidth: 350, minHeight: 100),
+                    constraints:
+                        const BoxConstraints(minWidth: 350, minHeight: 100),
                     color: const Color.fromARGB(255, 68, 21, 151),
                     child: Column(
                       children: [
@@ -90,15 +98,8 @@ class _AccueilState extends State<Accueil> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Bienvenue ${globals.user?.displayName};",
+                              "Bienvenue ${globals.user?.displayName}",
                               style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ),
-                            const Text(
-                              "Nombre de tache total",
-                              style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
@@ -107,14 +108,12 @@ class _AccueilState extends State<Accueil> {
                               height: 15,
                             ),
                             Text(
-                              globals.number != null
-                                  ? "${globals.number}"
-                                  : '0',
+                              "Nombre de tache total : ${globals.number != null ? globals.number : '0'}",
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 15),
-                            ),
+                                  fontSize: 17),
+                            )
                           ],
                         ),
                       ],

@@ -17,13 +17,16 @@ class _PasswordState extends State<Password> {
       var response =
           await authObject.AuthCheckAndCreate.userSignIn(email, password);
       if (response == null) {
+        setState(() {
+          _isAuthenticating = false;
+        });
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const Accueil()),
         );
       } else {
         print(response);
-        globals.errorMessage = response;
+        globals.errorMessage = "Adresse email ou/et mots de passe incorrecte .";
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Auth()));
       }
@@ -41,6 +44,24 @@ class _PasswordState extends State<Password> {
     // }
   }
 
+  void resetPassword(email) async {
+    var result =
+        await authObject.AuthCheckAndCreate.resetPassword(email: email);
+    globals.successMessage =
+        "Un email vous été envoyez pour réinitialiser votre mots de passe";
+              Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Auth()));
+
+    if (result == false) {
+      globals.errorMessage =
+          "L'addresse email saisie n'existe pas dans la base";
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Auth()));
+    }
+  }
+
+  bool _isAuthenticating = false;
+
   String _inputContent = "";
   bool _obscureText = true;
   final GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
@@ -52,16 +73,16 @@ class _PasswordState extends State<Password> {
         appBar: AppBar(
           title: const Text(''),
           elevation: 0.0,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Theme.of(context).primaryColor,
           leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Auth()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Auth()));
             },
             icon: const Icon(
               Icons.arrow_back,
             ),
-            color: Colors.black,
+            color: const Color.fromARGB(255, 255, 255, 255),
           ),
         ),
         body: Center(
@@ -163,18 +184,37 @@ class _PasswordState extends State<Password> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formGlobalKey.currentState!.validate()) {
+                            setState(() {
+                              _isAuthenticating = true;
+                            });
                             //    print("Passwordg ${globals.password}");
                             //  print("Username : ${globals.username}");
-                            checkCredentials(
-                                globals.username, globals.password);
+                            checkCredentials(globals.username.trim(),
+                                globals.password.trim());
                           }
                         },
+                        child: _isAuthenticating
+                            ? CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              )
+                            : Text('CONNEXION'),
                         style: ElevatedButton.styleFrom(
                           elevation: 5.0,
                           backgroundColor: Theme.of(context).primaryColor,
+                          fixedSize: Size(200, 50),
                         ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          resetPassword(globals.username);
+                        },
                         child: Text(
-                          'Connexion'.toUpperCase(),
+                          'Mots de passe oublé ?',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 100, 58, 250),
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                     ],

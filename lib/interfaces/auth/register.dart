@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/auth/auth.dart';
+import '../../globals/globals.dart' as globals;
 
 import 'authEmailPasswordCheck.dart' as authObject;
 
@@ -13,17 +14,53 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
+  String name = "";
+  bool _isAuthenticating = false;
+
   final RegExp emailRegExp = RegExp(r"[a-z0-9\._-]+@[a-z0-9\._-]+\.[a-z]+");
+  bool isValidText(String text) {
+    // Vérifie si la chaîne contient au moins une lettre
+    bool hasLetter = false;
+    for (int i = 0; i < text.length; i++) {
+      if (text[i].toLowerCase() != text[i].toUpperCase()) {
+        hasLetter = true;
+        break;
+      }
+    }
+
+    // Vérifie si la chaîne contient uniquement des caractères autorisés
+    const allowedChars =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\n \"-_?)&('><:,.!;+-àâéèêëîïôœùûüç*/%£\$";
+    bool hasOnlyAllowedChars = true;
+    for (int i = 0; i < text.length; i++) {
+      if (!allowedChars.contains(text[i])) {
+        hasOnlyAllowedChars = false;
+        break;
+      }
+    }
+
+    return hasLetter && hasOnlyAllowedChars;
+  }
+
   void _goBack() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const Auth()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Auth()));
   }
 
   void createUserAccount() async {
-    print("hihi");
-    var response =
-        await authObject.AuthCheckAndCreate.createUserAccount(email, password);
+    var response = await authObject.AuthCheckAndCreate.createUserAccount(
+        email.trim(), password.trim(), name.trim());
+    if (response == null) {
+      setState(() {
+        _isAuthenticating = false;
+      });
+      globals.successMessage = "Compte crée avec succes ! ";
+    } else {
+      globals.errorMessage = response;
+    }
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const Auth()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Auth()));
     print(response);
   }
 
@@ -57,7 +94,7 @@ class _RegisterState extends State<Register> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: const SizedBox(
-                          height: 62,
+                          height: 50,
                           child: Image(
                             image: AssetImage("resources/login.png"),
                             fit: BoxFit.cover,
@@ -65,19 +102,36 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       const SizedBox(
-                        height: 10.0,
+                        height: 5.0,
                       ),
                       Text("S'INSCRIRE",
                           style: TextStyle(
                               fontSize: 20,
                               color: Theme.of(context).primaryColor)),
                       const SizedBox(
-                        height: 10.0,
+                        height: 5.0,
                       ),
                       Container(
                           child: Form(
                               key: _formGlobalKey,
                               child: Column(children: [
+                                TextFormField(
+                                  validator: (value) {
+                                    if (value?.trim() == null ||
+                                        value!.isEmpty ||
+                                        isValidText(value.trim()) == false) {
+                                      return 'Verifiez ce que vous avez saisie...';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                      labelText: "Saisir votre nom complet"),
+                                  onChanged: (value) => {
+                                    setState(() {
+                                      name = value;
+                                    })
+                                  },
+                                ),
                                 TextFormField(
                                   validator: (value) => (email.isEmpty ||
                                           !emailRegExp.hasMatch(email)
@@ -92,7 +146,7 @@ class _RegisterState extends State<Register> {
                                   },
                                 ),
                                 const SizedBox(
-                                  height: 10.0,
+                                  height: 5.0,
                                 ),
                                 TextFormField(
                                   validator: (value) => (password.length <= 5
@@ -106,12 +160,20 @@ class _RegisterState extends State<Register> {
                                     })
                                   },
                                 ),
+                                const SizedBox(
+                                  height: 5.0,
+                                ),
                                 ElevatedButton(
-                                  onPressed: email.isEmpty || password.isEmpty
+                                  onPressed: email.isEmpty ||
+                                          password.isEmpty ||
+                                          name.isEmpty
                                       ? null
                                       : () {
                                           if (_formGlobalKey.currentState!
                                               .validate()) {
+                                            setState(() {
+                                              _isAuthenticating = true;
+                                            });
                                             createUserAccount();
                                           } else {
                                             print('form non validé');
@@ -121,10 +183,13 @@ class _RegisterState extends State<Register> {
                                     elevation: 5.0,
                                     backgroundColor:
                                         Theme.of(context).primaryColor,
+                                    fixedSize: Size(200, 50),
                                   ),
-                                  child: Text(
-                                    'S\'inscrire'.toUpperCase(),
-                                  ),
+                                  child: _isAuthenticating
+                                      ? CircularProgressIndicator()
+                                      : Text(
+                                          'S\'inscrire'.toUpperCase(),
+                                        ),
                                 ),
                               ])))
                     ]))));
