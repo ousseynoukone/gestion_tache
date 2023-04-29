@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/interfaces/auth/password.dart';
+import 'package:gestion_tache/interfaces/auth/register.dart';
 import '../../globals/globals.dart' as globals;
 
 class Auth extends StatefulWidget {
-  final Function(int) onNext;
-
-  Auth({super.key, required this.onNext});
+  const Auth({super.key});
 
   @override
   State<Auth> createState() => _AuthState();
@@ -28,17 +28,29 @@ class _AuthState extends State<Auth> {
             ),
             child: Column(
               children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: const SizedBox(
+                    height: 62,
+                    child: Image(
+                      image: AssetImage("resources/login.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
                 RichText(
                   text: TextSpan(
                     text: 'Authentification'.toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
                       TextSpan(
-                        text: '-'.toUpperCase(),
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 35.0,
@@ -49,16 +61,7 @@ class _AuthState extends State<Auth> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10.0,
-                ),
-                const Text(
-                  'Merci de renseignez vos infos',
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                const SizedBox(
-                  height: 50.0,
+                  height: 70.0,
                 ),
                 Form(
                   key: _formGlobalKey,
@@ -104,24 +107,63 @@ class _AuthState extends State<Auth> {
                           ? Text("${globals.errorMessage}",
                               style: const TextStyle(color: Colors.red))
                           : const Text(" "),
-                      ElevatedButton(
-                        onPressed: adr_email.isEmpty ||
-                                !emailRegExp.hasMatch(adr_email)
-                            ? null
-                            : () {
-                                if (_formGlobalKey.currentState!.validate()) {
-                                  print('form validé');
-                                  widget.onNext(2);
-                                } else {
-                                  print('form non validé');
-                                }
-                              },
-                        style: ElevatedButton.styleFrom(
-                          elevation: 5.0,
-                          backgroundColor: Theme.of(context).primaryColor,
-                        ),
-                        child: Text(
-                          'Suivant'.toUpperCase(),
+                      Container(
+                        constraints:
+                            const BoxConstraints(minWidth: 350, minHeight: 100),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: ElevatedButton(
+                                onPressed: adr_email.isEmpty ||
+                                        !emailRegExp.hasMatch(adr_email)
+                                    ? null
+                                    : () {
+                                        if (_formGlobalKey.currentState!
+                                            .validate()) {
+                                          print('form validé');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const Password()));
+                                        } else {
+                                          print('form non validé');
+                                        }
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5.0,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                ),
+                                child: Text(
+                                  'Suivant'.toUpperCase(),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print("pressed ! ");
+                                  //     widget.onNext(3);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Register()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5.0,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                ),
+                                child: Text(
+                                  'Créer un compte'.toUpperCase(),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

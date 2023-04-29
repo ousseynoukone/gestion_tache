@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../globals/globals.dart' as globals;
 
 class Tasks extends StatefulWidget {
-  Tasks({super.key});
+  const Tasks({super.key});
 
   @override
   State<Tasks> createState() => _Tasks();
@@ -23,12 +23,12 @@ class _Tasks extends State<Tasks> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               "Liste des Taches",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
@@ -55,7 +55,7 @@ class _Tasks extends State<Tasks> {
 
 class TaskItem extends StatelessWidget {
   final Task task;
-  TaskItem({required this.task});
+  const TaskItem({super.key, required this.task});
 
   String formatDate() {
     var f = DateFormat("dd / MM / yyyy hh:mm:ss").format(task.date_echeance);
@@ -65,28 +65,28 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+      margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${task.title}"),
-              SizedBox(height: 10.0),
-              Text("${formatDate()}")
+              Text(task.title),
+              const SizedBox(height: 10.0),
+              Text(formatDate())
             ],
           ),
           ElevatedButton.icon(
             onPressed: () {
-              globals.task = this.task;
+              globals.task = task;
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const AddTask()));
             },
-            icon: Icon(Icons.arrow_forward_ios),
-            label: Text(""),
+            icon: const Icon(Icons.arrow_forward_ios),
+            label: const Text(""),
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.white),
+              backgroundColor: const MaterialStatePropertyAll(Colors.white),
               foregroundColor:
                   MaterialStatePropertyAll(Theme.of(context).primaryColor),
             ),

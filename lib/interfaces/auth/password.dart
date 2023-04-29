@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import '../../globals/globals.dart' as globals;
+import 'auth.dart';
+import 'authEmailPasswordCheck.dart' as authObject;
 
 class Password extends StatefulWidget {
-  final Function(int) onNext;
-  const Password({super.key, required this.onNext});
+  const Password({super.key});
 
   @override
   State<Password> createState() => _PasswordState();
 }
 
 class _PasswordState extends State<Password> {
-
-  void checkCredentials(username, password, context) {
-    String trueUsername = "admin@gmail.com";
-    String truePassword = "passer123";
-    String trueName = "Ousseynou K.";
-
-    Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Accueil()),
-            );
+  void checkCredentials(email, password) async {
+    try {
+      var response =
+          await authObject.AuthCheckAndCreate.userSignIn(email, password);
+      if (response == null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Accueil()),
+        );
+      } else {
+        print(response);
+        globals.errorMessage = response;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Auth()));
+      }
+    } catch (e) {}
 
     // if (username == trueUsername && password == truePassword) {
     //   globals.errorMessage = trueName;
@@ -43,12 +50,13 @@ class _PasswordState extends State<Password> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(''),
+          title: const Text(''),
           elevation: 0.0,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           leading: IconButton(
             onPressed: () {
-              widget.onNext(1);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const Auth()));
             },
             icon: const Icon(
               Icons.arrow_back,
@@ -66,13 +74,39 @@ class _PasswordState extends State<Password> {
                 //   SizedBox(
                 //     height: 200.0,
                 //   ),
-                Text(
-                  'Mot de passe'.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 30.0,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: const SizedBox(
+                    height: 62,
+                    child: Image(
+                      image: AssetImage("resources/login.png"),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 30.0,
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Authentification'.toUpperCase(),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    children: [
+                      TextSpan(
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
                   height: 50.0,
                 ),
                 Form(
@@ -80,10 +114,10 @@ class _PasswordState extends State<Password> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text(
+                      const Text(
                         'Entrez votre mot de passe',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10.0,
                       ),
                       TextFormField(
@@ -132,7 +166,7 @@ class _PasswordState extends State<Password> {
                             //    print("Passwordg ${globals.password}");
                             //  print("Username : ${globals.username}");
                             checkCredentials(
-                                globals.username, globals.password, context);
+                                globals.username, globals.password);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -140,7 +174,7 @@ class _PasswordState extends State<Password> {
                           backgroundColor: Theme.of(context).primaryColor,
                         ),
                         child: Text(
-                          'Suivant'.toUpperCase(),
+                          'Connexion'.toUpperCase(),
                         ),
                       ),
                     ],

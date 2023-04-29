@@ -1,7 +1,6 @@
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../globals/globals.dart' as globals;
 
 class HttpTask {
   static const String BASE_URL = "http://10.0.2.2:5050/";

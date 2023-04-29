@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Start extends StatefulWidget {
-  final Function(int) onNext;
+import 'auth.dart';
 
-  const Start({super.key, required this.onNext});
+class Start extends StatefulWidget {
+
+  const Start({super.key});
 
   @override
   State<Start> createState() => _StartState();
@@ -17,15 +18,17 @@ class _StartState extends State<Start> {
           body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Container(
-                height: 400,
-                child: const Image(
-                  image: AssetImage("resources/start.jpg"),
-                  fit: BoxFit.cover,
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: const SizedBox(
+                  height: 400,
+                  child: Image(
+                    image: AssetImage("resources/start.jpg"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -34,7 +37,7 @@ class _StartState extends State<Start> {
             height: 25.0,
           ),
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Text(
               "Bienvenue dans votre application de  gestion des tâches",
               style: TextStyle(
@@ -49,12 +52,9 @@ class _StartState extends State<Start> {
           ),
           ElevatedButton(
             onPressed: () {
-              widget.onNext(1);
+                        Navigator.push(
+        context, MaterialPageRoute(builder: (context) =>  const Auth()));
             },
-            child: Text(
-              ' Allons-y ! '.toUpperCase(),
-              style: TextStyle(fontSize: 15),
-            ),
             style: ElevatedButton.styleFrom(
               elevation: 5.0,
               backgroundColor: Theme.of(context).primaryColor,
@@ -62,7 +62,11 @@ class _StartState extends State<Start> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              minimumSize: Size(200, 50),
+              minimumSize: const Size(200, 50),
+            ),
+            child: Text(
+              ' Allons-y ! '.toUpperCase(),
+              style: const TextStyle(fontSize: 15),
             ),
           ),
         ],

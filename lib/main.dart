@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/Default/add_task.dart';
-import 'package:gestion_tache/interfaces/home.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'interfaces/auth/start.dart';
 
-void main() {
+void  main() async {
+    WidgetsFlutterBinding.ensureInitialized(); // add this line
+  await Firebase.initializeApp(
+  name : 'task-app',
+  options: DefaultFirebaseOptions.currentPlatform,
+
+);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -17,12 +25,12 @@ class MyApp extends StatelessWidget {
 
       title: 'Gestionnaire de tache',
       theme: ThemeData(
-        primaryColor: Color.fromARGB(255, 68, 21, 151),
+        primaryColor: const Color.fromARGB(255, 68, 21, 151),
         secondaryHeaderColor: Colors.white,
         primaryColorDark: Colors.redAccent,
       ),
       //home: const Home(),
-      home: const AddTask(),
+      home:  const Start(),
     );
   }
 }

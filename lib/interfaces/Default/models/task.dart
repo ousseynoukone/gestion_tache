@@ -1,5 +1,6 @@
 class Task {
   final String? id;
+  final String? userId; //added
   final String title;
   final String description;
   String? doc_id;
@@ -7,23 +8,16 @@ class Task {
 
   Task(
       {required this.id,
+      this.userId="", //added
       required this.title,
       required this.description,
       required this.date_echeance,
       this.doc_id = ""});
 
+
   @override
   String toString() {
-    return " title = " +
-        this.title +
-        " description = " +
-        this.description +
-        " date_echeance = " +
-        this.date_echeance.toString() +
-        " id = " +
-        id.toString() +
-        " doc_id = " +
-        doc_id!;
+    return " title = $title description = $description date_echeance = $date_echeance id = $id doc_id = ${doc_id!}";
   }
 
   Map toBody() {
@@ -52,4 +46,6 @@ class Task {
         description: json['description'],
         date_echeance: DateTime.parse(json['date_echeance_second']));
   }
+
+  
 }

@@ -14,10 +14,11 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
+  @override
   void initState() {
     super.initState();
     //globals.tasks =
-    print("global=" + globals.number.toString());
+    print("global=${globals.number}");
 
     HttpTask.fetchTasksNumber().then((value) {
       setState(() {
@@ -55,14 +56,14 @@ class _AccueilState extends State<Accueil> {
           elevation: 0.0,
           leading: IconButton(
             onPressed: null,
-            icon: Icon(
+            icon: const Icon(
               Icons.menu,
             ),
             color: Theme.of(context).primaryColor,
           ),
           actions: [
             IconButton(
-              style: ButtonStyle(),
+              style: const ButtonStyle(),
               onPressed: null,
               icon: const Icon(
                 Icons.notifications_none,
@@ -72,38 +73,44 @@ class _AccueilState extends State<Accueil> {
           ],
         ),
         body: SingleChildScrollView(
-          
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.all(20.0),
+                margin: const EdgeInsets.all(20.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    padding: EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(10.0),
                     alignment: Alignment.center,
-                    constraints: BoxConstraints(minWidth: 350, minHeight: 100),
-                    color: Color.fromARGB(255, 68, 21, 151),
+                    constraints: const BoxConstraints(minWidth: 350, minHeight: 100),
+                    color: const Color.fromARGB(255, 68, 21, 151),
                     child: Column(
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
+                              "Bienvenue ${globals.user?.displayName};",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                            const Text(
                               "Nombre de tache total",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Text(
                               globals.number != null
                                   ? "${globals.number}"
                                   : '0',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15),
@@ -115,7 +122,7 @@ class _AccueilState extends State<Accueil> {
                   ),
                 ),
               ),
-              Tasks(),
+              const Tasks(),
             ],
           ),
         ),
@@ -125,22 +132,22 @@ class _AccueilState extends State<Accueil> {
           child: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 label: 'Home',
                 backgroundColor: Theme.of(context).primaryColor,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today),
+                icon: const Icon(Icons.calendar_today),
                 label: 'Calendar',
                 backgroundColor: Theme.of(context).primaryColor,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.chat_bubble_outline),
+                icon: const Icon(Icons.chat_bubble_outline),
                 label: 'Business',
                 backgroundColor: Theme.of(context).primaryColor,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: const Icon(Icons.person),
                 label: 'School',
                 backgroundColor: Theme.of(context).primaryColor,
               ),

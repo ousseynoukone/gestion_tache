@@ -3,10 +3,7 @@ import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
-import 'package:http/http.dart';
 import '../../globals/globals.dart' as globals;
-import 'package:gestion_tache/http/http_task.dart';
-import 'dart:convert';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -33,7 +30,13 @@ class _AddTask extends State<AddTask> {
     }
   }
 
-  void _goBack() {
+  void _goBack() async {
+    //   HttpFirebase.getTaskByUser(0);
+
+   // var response = await HttpFirebase.updateTask("zVIatS9wpcVUMqyr3ece", t);
+    // DocumentReference response = await HttpFirebase.addTaskByUser(t, "1");
+    //  var response = await HttpFirebase.deleteTask("ZX9ISmFL0anFKriuUczH");
+    //   print(response);
     //pour que le task qui est dans global soit réinitialiser si on retourne a l'acceuil , autre il risque de conserver les donnés du precendent task et dés qu'on esssaye d'ajouter un task , c'est se task la qui va se charger
     globals.task = null;
     Navigator.push(
@@ -42,7 +45,7 @@ class _AddTask extends State<AddTask> {
 
   void _taskDeletion() async {
     var r = await HttpTask.deleteTask(globals.task?.doc_id);
-   //  print(r.body);
+    //  print(r.body);
     r.statusCode != 500 ? _goBack() : print("Echec de la suppresion ! ");
   }
 
@@ -69,7 +72,7 @@ class _AddTask extends State<AddTask> {
 
     var r = await HttpTask.addTask(task);
 
-    r.statusCode != 500 ? _goBack() : print("erreur lors de l'ajaout ! ");
+    r.statusCode != 500 ? _goBack() : print("erreur lors de l'ajout ! ");
   }
 
   bool isValidText(String text) {
@@ -102,21 +105,21 @@ class _AddTask extends State<AddTask> {
         child: Scaffold(
       appBar: AppBar(
         title: globals.task == null
-            ? Text('Creer une nouvelle tache')
-            : Text("Details de la Tache"),
+            ? const Text('Creer une nouvelle tache')
+            : const Text("Details de la Tache"),
         elevation: 0.0,
         backgroundColor: Theme.of(context).primaryColor,
         leading: IconButton(
           onPressed: _goBack,
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
           ),
-          color: Colors.black,
+          color: const Color.fromARGB(255, 255, 255, 255),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               Form(
