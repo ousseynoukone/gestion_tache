@@ -4,12 +4,12 @@ const { getFirestore } = require("firebase/firestore");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAPKy7F8xZ5ZVuREIJRhAArcOJB3cOQ7Eg",
-  authDomain: "flutter-gestion-tache-firebase.firebaseapp.com",
-  projectId: "flutter-gestion-tache-firebase",
-  storageBucket: "flutter-gestion-tache-firebase.appspot.com",
-  messagingSenderId: "965723048235",
-  appId: "1:965723048235:web:92d628aeeb4f758ef61d6e"
+  apiKey: "AIzaSyD2DjAYHHxcKF_IEfJ8-3Zn3aubhyex8zM",
+  authDomain: "task-app-1ad42.firebaseapp.com",
+  projectId: "task-app-1ad42",
+  storageBucket: "task-app-1ad42.appspot.com",
+  messagingSenderId: "586727540801",
+  appId: "1:586727540801:web:d577588320e6e044abdec0"
 };
 
 // Initialize Firebase

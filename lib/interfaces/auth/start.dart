@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'auth.dart';
 
 class Start extends StatefulWidget {
-
   const Start({super.key});
 
   @override
@@ -39,7 +38,7 @@ class _StartState extends State<Start> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              "Bienvenue dans votre application de  gestion des tâches",
+              "Bienvenue dans votre application de gestion des tâches",
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,
@@ -52,8 +51,8 @@ class _StartState extends State<Start> {
           ),
           ElevatedButton(
             onPressed: () {
-                        Navigator.push(
-        context, MaterialPageRoute(builder: (context) =>  const Auth()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Auth()));
             },
             style: ElevatedButton.styleFrom(
               elevation: 5.0,

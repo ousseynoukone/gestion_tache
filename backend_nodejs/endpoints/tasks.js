@@ -8,11 +8,15 @@ exports.getTasks = async (req, response) => {
         let data = [];
 
         querySnapshot.forEach((doc) => {
+            if(doc.data()['userID']=="0")
+            {
             let doc_id = doc.ref.id ;
             let t = doc.data()["date_echeance"] ;
             let date = new Date(t.seconds * 1000 + t.nanoseconds / 1000000);
             let obj = { id: doc.id, date_echeance_second: date, doc_id: doc_id, ...doc.data()}
             data.push(obj);
+            }
+
           });
             
           if (response) {
@@ -51,7 +55,13 @@ exports.numberItem = async (req, res) => {
             let number = 0;
     
             querySnapshot.forEach((doc) => {
-                number += 1;
+                if(doc.data()['userID']=="0")
+                {
+                    number += 1;
+
+                }
+               
+
               });
          res.status(201).json({ number : number });
         

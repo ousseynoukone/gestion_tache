@@ -48,7 +48,9 @@ class HttpFirebase {
     QuerySnapshot querySnapshot = await tasks.get();
     var number = 0;
     for (var doc in querySnapshot.docs) {
-      number += 1;
+      if (doc["userID"] != 0) {
+        number += 1;
+      }
     }
     try {
       await tasks.add({

@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gestion_tache/interfaces/Default/public_task.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
 import 'package:gestion_tache/http/http_task_firebase.dart';
@@ -17,6 +18,12 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
+  void _goBack() async {
+    globals.task = null;
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Accueil()));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +67,7 @@ class _AccueilState extends State<Accueil> {
           leading: IconButton(
             onPressed: null,
             icon: const Icon(
-              Icons.menu,
+              Icons.home,
             ),
             color: Theme.of(context).primaryColor,
           ),
@@ -81,6 +88,8 @@ class _AccueilState extends State<Accueil> {
         ),
         body: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
                 margin: const EdgeInsets.all(20.0),
@@ -118,6 +127,25 @@ class _AccueilState extends State<Accueil> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(right: 20, bottom: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PublicTask()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5.0,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    fixedSize: Size(170, 50),
+                  ),
+                  child: Text(
+                    'Taches publiques'.toUpperCase(),
                   ),
                 ),
               ),
