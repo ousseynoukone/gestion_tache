@@ -50,6 +50,7 @@ class _PublicTaskDetailsState extends State<PublicTaskDetails> {
                       height: 10.0,
                     ),
                     TextFormField(
+    readOnly: true,
                       initialValue: globals.task?.title,
                       decoration: InputDecoration(
                         hintText: 'le titre de la tache publique',
@@ -76,6 +77,8 @@ class _PublicTaskDetailsState extends State<PublicTaskDetails> {
                       height: 10.0,
                     ),
                     TextFormField(
+                          readOnly: true,
+
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       initialValue: globals.task?.description,
@@ -107,6 +110,8 @@ class _PublicTaskDetailsState extends State<PublicTaskDetails> {
                       height: 10.0,
                     ),
                     DateTimeFormField(
+                      enabled: false,
+
                       decoration: const InputDecoration(
                         hintStyle: TextStyle(color: Colors.black45),
                         errorStyle: TextStyle(color: Colors.redAccent),
