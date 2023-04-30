@@ -1,6 +1,6 @@
 class Task {
   final String? id;
-  final String? userId; //added
+  final String? userID; //added
   final String title;
   final String description;
   String? doc_id;
@@ -8,7 +8,7 @@ class Task {
 
   Task(
       {required this.id,
-      this.userId="", //added
+      this.userID="", //added
       required this.title,
       required this.description,
       required this.date_echeance,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/http/http_task.dart';
+import 'package:gestion_tache/http/http_task_firebase.dart ';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,8 @@ class _Tasks extends State<Tasks> {
   void initState() {
     //  print('init');
     super.initState();
-    globals.tasks = HttpTask.fetchTasks();
+
+    globals.tasks = HttpFirebase.getTaskByUser(globals.user?.uid);
   }
 
   @override

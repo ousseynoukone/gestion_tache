@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
-import 'package:gestion_tache/http/http_task.dart';
+import 'package:gestion_tache/http/http_task_firebase.dart';
 import 'package:gestion_tache/globals/globals.dart' as globals;
 
 import '../auth/auth.dart';
@@ -23,7 +23,7 @@ class _AccueilState extends State<Accueil> {
     //globals.tasks =
     print("global=${globals.number}");
 
-    HttpTask.fetchTasksNumber().then((value) {
+    HttpFirebase.fetchTasksNumber(globals.user?.uid).then((value) {
       setState(() {
         print(value);
         globals.number = value;

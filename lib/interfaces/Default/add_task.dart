@@ -4,6 +4,7 @@ import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import '../../globals/globals.dart' as globals;
+import 'package:gestion_tache/http/http_task_firebase.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -17,6 +18,9 @@ class _AddTask extends State<AddTask> {
   String title = "";
   String description = "";
   DateTime date_echeance = DateTime.now();
+  bool _isAdding = false;
+  bool _isModifiying = false;
+  bool _isDeleting = false;
 
   @override
   void initState() {
@@ -33,7 +37,7 @@ class _AddTask extends State<AddTask> {
   void _goBack() async {
     //   HttpFirebase.getTaskByUser(0);
 
-   // var response = await HttpFirebase.updateTask("zVIatS9wpcVUMqyr3ece", t);
+    // var response = await HttpFirebase.updateTask("zVIatS9wpcVUMqyr3ece", t);
     // DocumentReference response = await HttpFirebase.addTaskByUser(t, "1");
     //  var response = await HttpFirebase.deleteTask("ZX9ISmFL0anFKriuUczH");
     //   print(response);
@@ -44,23 +48,27 @@ class _AddTask extends State<AddTask> {
   }
 
   void _taskDeletion() async {
-    var r = await HttpTask.deleteTask(globals.task?.doc_id);
+    var r = await HttpFirebase.deleteTask(globals.task?.doc_id);
+    bool _isDeleting = false;
+
     //  print(r.body);
-    r.statusCode != 500 ? _goBack() : print("Echec de la suppresion ! ");
+    r ? _goBack() : print("erreur lors de la suppresion ! ");
   }
 
   void _updateTask() async {
     Task task = Task(
-        id: globals.task?.id,
-        title: title,
-        description: description,
-        date_echeance: date_echeance,
-        doc_id: globals.task?.doc_id);
+      id: globals.task?.id,
+      title: title,
+      description: description,
+      date_echeance: date_echeance,
+    );
 
     //print(task);
 
-    var r = await HttpTask.updateTask(task);
-    r.statusCode != 500 ? _goBack() : print("Echec de la mise a jour ! ");
+    var r = await HttpFirebase.updateTask(globals.task?.doc_id, task);
+    bool _isModifiying = false;
+
+    r ? _goBack() : print("Echec de la mise a jour ! ");
   }
 
   void _saveTask() async {
@@ -70,9 +78,12 @@ class _AddTask extends State<AddTask> {
         description: description,
         date_echeance: date_echeance);
 
-    var r = await HttpTask.addTask(task);
+    var response = await HttpFirebase.addTaskByUser(task, globals.user?.uid);
+    bool _isAdding = false;
 
-    r.statusCode != 500 ? _goBack() : print("erreur lors de l'ajout ! ");
+    if (response == true) {
+      _goBack();
+    }
   }
 
   bool isValidText(String text) {
@@ -242,16 +253,22 @@ class _AddTask extends State<AddTask> {
                         ? ElevatedButton(
                             onPressed: () {
                               if (_formGlobalKey.currentState!.validate()) {
+                                setState(() {
+                                  _isAdding = true;
+                                });
                                 _saveTask();
                               }
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 5.0,
                               backgroundColor: Theme.of(context).primaryColor,
+                              fixedSize: Size(200, 50),
                             ),
-                            child: Text(
-                              'Ajouter'.toUpperCase(),
-                            ),
+                            child: _isAdding
+                                ? CircularProgressIndicator()
+                                : Text(
+                                    'Ajouter'.toUpperCase(),
+                                  ),
                           )
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -259,7 +276,9 @@ class _AddTask extends State<AddTask> {
                               ElevatedButton(
                                 onPressed: () {
                                   if (_formGlobalKey.currentState!.validate()) {
-                                    // modifier
+                                    setState(() {
+                                      _isModifiying = true;
+                                    });
                                     _updateTask();
                                   }
                                 },
@@ -267,23 +286,32 @@ class _AddTask extends State<AddTask> {
                                   elevation: 5.0,
                                   backgroundColor:
                                       Theme.of(context).primaryColor,
+                                  fixedSize: Size(170, 50),
                                 ),
-                                child: Text(
-                                  'Modifier'.toUpperCase(),
-                                ),
+                                child: _isModifiying
+                                    ? CircularProgressIndicator()
+                                    : Text(
+                                        'Modifier'.toUpperCase(),
+                                      ),
                               ),
                               ElevatedButton(
                                 onPressed: () {
+                                  setState(() {
+                                    _isDeleting = true;
+                                  });
                                   _taskDeletion();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   elevation: 5.0,
                                   backgroundColor:
                                       Theme.of(context).primaryColorDark,
+                                  fixedSize: Size(170, 50),
                                 ),
-                                child: Text(
-                                  'Supprimer'.toUpperCase(),
-                                ),
+                                child: _isDeleting
+                                    ? CircularProgressIndicator()
+                                    : Text(
+                                        'Supprimer'.toUpperCase(),
+                                      ),
                               )
                             ],
                           ),

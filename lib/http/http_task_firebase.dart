@@ -10,48 +10,58 @@ class HttpFirebase {
 
     QuerySnapshot querySnapshot = await tasks.get();
     for (var doc in querySnapshot.docs) {
-      var task = Task(
-          id: doc['id'],
-          title: doc['title'],
-          description: doc['description'],
-          date_echeance: doc['date_echeance'],
-          doc_id: doc.reference.id);
-      taskList.add(task);
+      if (userID == doc['userID']) {
+        var dateEcheance = (doc['date_echeance'] as Timestamp).toDate();
+        try {
+          var task = Task(
+            id: doc['id'].toString(),
+            title: doc['title'],
+            description: doc['description'],
+            date_echeance: doc['date_echeance'].toDate(),
+            doc_id: doc.id,
+          );
+          taskList.add(task);
+        } catch (e) {
+          print('Error creating task: $e');
+        }
+      }
     }
 
     return taskList;
   }
 
-static Future<int> fetchTasksNumber(userID) async {
-  CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
-  var number = 0;
+  static Future<int> fetchTasksNumber(userID) async {
+    CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
+    var number = 0;
 
-  await tasks.get().then((value) => value.docs.forEach((doc) {
-    if (doc['userID'] == userID) {
-      number += 1;
-    }
-  }));
+    await tasks.get().then((value) => value.docs.forEach((doc) {
+          if (doc['userID'] == userID) {
+            number += 1;
+          }
+        }));
 
-  return number;
-}
+    return number;
+  }
 
-
-  static Future<DocumentReference> addTaskByUser(
-      Task task, String userID) async {
+  static Future<bool> addTaskByUser(Task task, String? userID) async {
     CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
     QuerySnapshot querySnapshot = await tasks.get();
     var number = 0;
     for (var doc in querySnapshot.docs) {
       number += 1;
     }
-
-    return await tasks.add({
-      'id': number,
-      'title': task.title,
-      'description': task.description,
-      'date_echeance': task.date_echeance,
-      'userID': userID,
-    });
+    try {
+      await tasks.add({
+        'id': number,
+        'title': task.title,
+        'description': task.description,
+        'date_echeance': task.date_echeance,
+        'userID': userID,
+      });
+      return true;
+    } catch (exception) {
+      return false;
+    }
   }
 
   static Future<bool> deleteTask(id) async {
