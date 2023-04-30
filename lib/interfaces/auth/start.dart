@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
+import 'package:gestion_tache/interfaces/auth/authEmailPasswordCheck.dart';
+import 'package:gestion_tache/globals/globals.dart' as globals;
+import '../Default/accueil.dart';
 import 'auth.dart';
 
 class Start extends StatefulWidget {
@@ -10,6 +13,32 @@ class Start extends StatefulWidget {
 }
 
 class _StartState extends State<Start> {
+  bool _isLogIn = true;
+
+  void initState() {
+    loadAuthCredential();
+    _isLogIn = true;
+  }
+
+  void loadAuthCredential() async {
+    Map<String, dynamic> credential = await rememberMe.readAuthCredential();
+    if (credential.isEmpty == false) {
+      var rep = await AuthCheckAndCreate.userLogIn(
+          credential['email'], credential['password']);
+      if (rep == null) {
+        setState(() {
+          _isLogIn = false;
+        });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Accueil()));
+      } else {}
+    } else {
+      setState(() {
+        _isLogIn = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,24 +79,29 @@ class _StartState extends State<Start> {
             height: 65.0,
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Auth()));
-            },
-            style: ElevatedButton.styleFrom(
-              elevation: 5.0,
-              backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Theme.of(context).secondaryHeaderColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
+              onPressed: _isLogIn
+                  ? null
+                  : () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Auth()));
+                    },
+              style: ElevatedButton.styleFrom(
+                elevation: 5.0,
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).secondaryHeaderColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                minimumSize: const Size(200, 50),
               ),
-              minimumSize: const Size(200, 50),
-            ),
-            child: Text(
-              ' Allons-y ! '.toUpperCase(),
-              style: const TextStyle(fontSize: 15),
-            ),
-          ),
+              child: _isLogIn
+                  ? CircularProgressIndicator()
+                  : Text(
+                      ' Allons-y ! '.toUpperCase(),
+                      style: const TextStyle(fontSize: 15),
+                    )),
         ],
       )),
     );

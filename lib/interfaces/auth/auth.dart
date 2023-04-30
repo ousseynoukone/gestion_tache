@@ -21,6 +21,9 @@ class _AuthState extends State<Auth> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          title: Text(
+            'S\'authentifier',
+          ),
           automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: Theme.of(context).primaryColor,
@@ -135,7 +138,7 @@ class _AuthState extends State<Auth> {
                       ),
                       Container(
                         constraints:
-                            const BoxConstraints(minWidth: 350, minHeight: 100),
+                            const BoxConstraints(minWidth: 350, minHeight: 50),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

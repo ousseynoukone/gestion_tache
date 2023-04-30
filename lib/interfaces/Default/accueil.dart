@@ -1,4 +1,5 @@
 //import 'dart:js_util';
+import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,10 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
+  void _deleteLoginCredentials() {
+    rememberMe.logOut();
+  }
+
   void _goBack() async {
     globals.task = null;
     Navigator.push(
@@ -76,6 +81,7 @@ class _AccueilState extends State<Accueil> {
               style: const ButtonStyle(),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
+                _deleteLoginCredentials();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => const Auth()));
               },

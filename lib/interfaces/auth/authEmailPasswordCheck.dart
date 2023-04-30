@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gestion_tache/globals/globals.dart' as globals;
+import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
 
 class AuthCheckAndCreate {
-  static Future<String?> userSignIn(String mail, String pwd) async {
+  static Future<String?> userLogIn(String mail, String pwd) async {
     FirebaseAuth.instance.setLanguageCode('fr');
 
     try {
@@ -10,6 +11,13 @@ class AuthCheckAndCreate {
           .signInWithEmailAndPassword(email: mail, password: pwd);
       print(result.user?.email);
       globals.user = result.user;
+      Map<String, dynamic> user = {
+        'email': result.user?.email,
+        'password': pwd,
+        'name': result.user?.displayName
+      };
+     await rememberMe.writeAuthCredential(user);
+
       return null;
     } on FirebaseAuthException catch (ex) {
       return "${ex.code}: ${ex.message}";
@@ -36,7 +44,6 @@ class AuthCheckAndCreate {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return true;
     } on FirebaseAuthException catch (ex) {
-      
       print(ex.message);
       return false;
     }

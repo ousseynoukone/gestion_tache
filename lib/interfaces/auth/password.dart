@@ -15,7 +15,7 @@ class _PasswordState extends State<Password> {
   void checkCredentials(email, password) async {
     try {
       var response =
-          await authObject.AuthCheckAndCreate.userSignIn(email, password);
+          await authObject.AuthCheckAndCreate.userLogIn(email, password);
       if (response == null) {
         setState(() {
           _isAuthenticating = false;
@@ -49,8 +49,8 @@ class _PasswordState extends State<Password> {
         await authObject.AuthCheckAndCreate.resetPassword(email: email);
     globals.successMessage =
         "Un email vous été envoyez pour réinitialiser votre mots de passe";
-              Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Auth()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const Auth()));
 
     if (result == false) {
       globals.errorMessage =
@@ -71,7 +71,9 @@ class _PasswordState extends State<Password> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(''),
+          title: Text(
+            'S\'authentifier',
+          ),
           elevation: 0.0,
           backgroundColor: Theme.of(context).primaryColor,
           leading: IconButton(
