@@ -11,6 +11,7 @@ class rememberMe {
     final file = File('$path/auth_credential.txt');
 
     if (!await file.exists()) {
+      print("printed ! ");
       String jsonData = json.encode(data);
       return file.writeAsString(jsonData);
     }
@@ -31,22 +32,20 @@ class rememberMe {
     }
   }
 
+  static void logOut() async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    final file = File('$path/auth_credential.txt');
 
-static void logOut() async {
-  final Directory directory = await getApplicationDocumentsDirectory();
-  final path = directory.path;
-  final file = File('$path/auth_credential.txt');
-
-  try {
-    if (await file.exists()) {
-      await file.delete();
-      print('File deleted successfully');
-    } else {
-      print('File not found');
+    try {
+      if (await file.exists()) {
+        await file.delete();
+        print('File deleted successfully');
+      } else {
+        print('File not found');
+      }
+    } catch (e) {
+      print('Failed to delete file. Error: $e');
     }
-  } catch (e) {
-    print('Failed to delete file. Error: $e');
   }
-}
-
 }

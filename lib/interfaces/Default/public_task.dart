@@ -73,89 +73,78 @@ class _PublicTaskState extends State<PublicTask> {
         backgroundColor: Colors.white,
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(20.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  alignment: Alignment.center,
-                  constraints:
-                      const BoxConstraints(minWidth: 350, minHeight: 100),
-                  color: const Color.fromARGB(255, 68, 21, 151),
-                  child: Column(
+      body: Column(children: [
+        Container(
+          margin: const EdgeInsets.all(20.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              alignment: Alignment.center,
+              constraints: const BoxConstraints(minWidth: 350, minHeight: 100),
+              color: const Color.fromARGB(255, 68, 21, 151),
+              child: Column(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Les taches publiques",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "Nombre de tache total : ${nbTask}",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17),
-                          )
-                        ],
+                      Text(
+                        "Les taches publiques",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Nombre de tache total : ${nbTask}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      )
                     ],
                   ),
-                ),
+                ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(10.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Liste des Taches",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    RefreshIndicator(
-                      onRefresh: () async {
-                        refresh();
-                        // Votre code pour rafraîchir les données
-                      },
-                      child: FutureBuilder<List<Task>>(
-                          future: tasks,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                  shrinkWrap: true,
-                                  padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data?.length,
-                                  itemBuilder: (context, index) {
-                                    return TaskItem(
-                                        task: snapshot.data!.elementAt(index));
-                                  });
-                            }
-                            return const CircularProgressIndicator();
-                          }),
-                    )
-                  ]),
-            )
-          ],
+          ),
         ),
-      ),
+        Container(
+          margin: EdgeInsets.only(left: 20),
+          alignment: Alignment.bottomLeft,
+          child: Text(
+            "Liste des Taches",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+        ),
+        Expanded(
+            child: RefreshIndicator(
+                onRefresh: () async {
+                  refresh();
+                  // Votre code pour rafraîchir les données
+                },
+                child: SingleChildScrollView(
+                  child: FutureBuilder<List<Task>>(
+                      future: tasks,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(8),
+                              itemCount: snapshot.data?.length,
+                              itemBuilder: (context, index) {
+                                return TaskItem(
+                                    task: snapshot.data!.elementAt(index));
+                              });
+                        }
+                        return const CircularProgressIndicator();
+                      }),
+                )))
+      ]),
     );
   }
 }

@@ -30,10 +30,7 @@ class _Tasks extends State<Tasks> {
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Liste des Taches",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-            ),
+
           ],
         ),
         FutureBuilder<List<Task>>(
@@ -41,6 +38,8 @@ class _Tasks extends State<Tasks> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
                     itemCount: snapshot.data?.length,

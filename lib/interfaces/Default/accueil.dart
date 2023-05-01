@@ -92,72 +92,81 @@ class _AccueilState extends State<Accueil> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                margin: const EdgeInsets.all(20.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    alignment: Alignment.center,
-                    constraints:
-                        const BoxConstraints(minWidth: 350, minHeight: 100),
-                    color: const Color.fromARGB(255, 68, 21, 151),
-                    child: Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Bienvenue ${globals.user?.displayName}",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Text(
-                              "Nombre de tache total : ${globals.number != null ? globals.number : '0'}",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              margin: const EdgeInsets.all(20.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: const EdgeInsets.all(10.0),
+                  alignment: Alignment.center,
+                  constraints:
+                      const BoxConstraints(minWidth: 350, minHeight: 100),
+                  color: const Color.fromARGB(255, 68, 21, 151),
+                  child: Column(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Bienvenue ${globals.user?.displayName}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "Nombre de tache total : ${globals.number != null ? globals.number : '0'}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(right: 20, bottom: 10),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PublicTask()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5.0,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    fixedSize: Size(170, 50),
-                  ),
-                  child: Text(
-                    'Taches publiques'.toUpperCase(),
-                  ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(right: 20, bottom: 10),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PublicTask()));
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 5.0,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  fixedSize: const Size(170, 50),
+                ),
+                child: Text(
+                  'Taches publiques'.toUpperCase(),
                 ),
               ),
-              const Tasks(),
-            ],
-          ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                "Liste des Taches",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: const Tasks(),
+              ),
+            ),
+          ],
         ),
         bottomNavigationBar: BottomAppBar(
           height: 80.0,
