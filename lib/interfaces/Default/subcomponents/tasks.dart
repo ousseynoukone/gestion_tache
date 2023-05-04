@@ -29,17 +29,25 @@ class _Tasks extends State<Tasks> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-
-          ],
+          children: [],
         ),
         FutureBuilder<List<Task>>(
-            future: globals.tasks,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
+          future: globals.tasks,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasData) {
+              if (snapshot.data?.isEmpty == true) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(left: 75, top: 20),
+                          child: Text("Vous n'avez enregistré aucune tâche"))
+                    ]);
+              } else {
                 return ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(8),
                     itemCount: snapshot.data?.length,
@@ -47,8 +55,10 @@ class _Tasks extends State<Tasks> {
                       return TaskItem(task: snapshot.data!.elementAt(index));
                     });
               }
-              return const CircularProgressIndicator();
-            }),
+            }
+            return const SizedBox.shrink();
+          },
+        )
       ]),
     );
   }

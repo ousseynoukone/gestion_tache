@@ -149,7 +149,7 @@ class _AccueilState extends State<Accueil> {
                   fixedSize: const Size(170, 50),
                 ),
                 child: Text(
-                  'Taches publiques'.toUpperCase(),
+                  'Tâches publiques'.toUpperCase(),
                 ),
               ),
             ),
@@ -157,7 +157,7 @@ class _AccueilState extends State<Accueil> {
               margin: EdgeInsets.only(left: 20),
               alignment: Alignment.bottomLeft,
               child: Text(
-                "Liste des Taches",
+                "Liste des Tâches",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
             ),

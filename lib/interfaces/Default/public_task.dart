@@ -65,7 +65,7 @@ class _PublicTaskState extends State<PublicTask> {
           color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          "Taches publiques",
+          "Tâches publiques",
           style: TextStyle(
               color: Theme.of(context).primaryColor, fontFamily: 'Raleway'),
         ),
@@ -89,7 +89,7 @@ class _PublicTaskState extends State<PublicTask> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Les taches publiques",
+                        "Les tâches publiques",
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -115,33 +115,59 @@ class _PublicTaskState extends State<PublicTask> {
         Container(
           margin: EdgeInsets.only(left: 20),
           alignment: Alignment.bottomLeft,
-          child: Text(
-            "Liste des Taches",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          child: Row(
+            children: [
+              Text(
+                "Liste des Tâches",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  refresh();
+                },
+                child: Icon(Icons.refresh),
+              ),
+              SizedBox(width: 20),
+            ],
           ),
         ),
         Expanded(
             child: RefreshIndicator(
                 onRefresh: () async {
                   refresh();
-                  // Votre code pour rafraîchir les données
                 },
                 child: SingleChildScrollView(
                   child: FutureBuilder<List<Task>>(
                       future: tasks,
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(8),
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                return TaskItem(
-                                    task: snapshot.data!.elementAt(index));
-                              });
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasData) {
+                          if (snapshot.data?.isEmpty == true) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 20),
+                                  Text("Il n'y a  aucune tâche publique "),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: const EdgeInsets.all(8),
+                                itemCount: snapshot.data?.length,
+                                itemBuilder: (context, index) {
+                                  return TaskItem(
+                                      task: snapshot.data!.elementAt(index));
+                                });
+                          }
                         }
-                        return const CircularProgressIndicator();
+                        return const SizedBox.shrink();
                       }),
                 )))
       ]),
