@@ -116,8 +116,8 @@ class _AddTask extends State<AddTask> {
         child: Scaffold(
       appBar: AppBar(
         title: globals.task == null
-            ? const Text('Creer une nouvelle tache')
-            : const Text("Details de la Tache"),
+            ? const Text('Creer une nouvelle tâche')
+            : const Text("Details de la Tâche"),
         elevation: 0.0,
         backgroundColor: Theme.of(context).primaryColor,
         leading: IconButton(

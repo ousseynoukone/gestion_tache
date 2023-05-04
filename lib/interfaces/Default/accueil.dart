@@ -121,7 +121,7 @@ class _AccueilState extends State<Accueil> {
                             height: 15,
                           ),
                           Text(
-                            "Nombre de tache total : ${globals.number != null ? globals.number : '0'}",
+                            "Nombre de tâche total : ${globals.number != null ? globals.number : '0'}",
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
