@@ -4,6 +4,9 @@ import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'firebase_options.dart';
 import 'interfaces/auth/start.dart';
 
+import 'package:intl/intl.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // add this line
   await Firebase.initializeApp(
@@ -20,6 +23,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('fr'),
+
+      ],
+      locale: const Locale('fr'),
       debugShowCheckedModeBanner: false,
 
       title: 'Gestionnaire de tache',

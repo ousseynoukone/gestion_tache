@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import '../../globals/globals.dart' as globals;
 import 'package:gestion_tache/http/http_task_firebase.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
