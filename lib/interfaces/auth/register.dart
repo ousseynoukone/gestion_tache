@@ -16,6 +16,8 @@ class _RegisterState extends State<Register> {
   String password = "";
   String name = "";
   bool _isAuthenticating = false;
+  bool _obscureText = true;
+
 
   final RegExp emailRegExp = RegExp(r"[a-z0-9\._-]+@[a-z0-9\._-]+\.[a-z]+");
   bool isValidText(String text) {
@@ -152,8 +154,18 @@ class _RegisterState extends State<Register> {
                                   validator: (value) => (password.length <= 5
                                       ? 'Mots de passe trop court ! '
                                       : null),
-                                  decoration: const InputDecoration(
-                                      labelText: "Saisir un mots de passe"),
+                                    obscureText: _obscureText,
+                                    decoration: InputDecoration(
+                                      hintText: "Saisir un mots de passe",
+                                      suffixIcon: InkWell(
+                                        onTap: () => setState(() {
+                                          _obscureText = !_obscureText;
+                                        }),
+                                        child: Icon(_obscureText
+                                            ? Icons.visibility_off
+                                            : Icons.visibility),
+                                      )
+                                    ),
                                   onChanged: (value) => {
                                     setState(() {
                                       password = value;
