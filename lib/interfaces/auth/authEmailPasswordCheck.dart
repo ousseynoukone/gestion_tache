@@ -16,8 +16,14 @@ class AuthCheckAndCreate {
         'password': pwd,
         'username': result.user?.displayName
       };
-     await sharedPreference.saveUserCredential(user);
+      var isExist = await sharedPreference.isUserExist();
 
+      if (isExist == false) {
+     
+        await sharedPreference.saveUserCredential(user);
+      } else {
+        print("user already exist ! ");
+      }
       return null;
     } on FirebaseAuthException catch (ex) {
       return "${ex.code}: ${ex.message}";

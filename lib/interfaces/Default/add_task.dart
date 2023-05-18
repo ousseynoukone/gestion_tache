@@ -238,7 +238,7 @@ class _AddTask extends State<AddTask> {
                       ),
 
                       initialValue: date_echeance,
-                      firstDate: DateTime.now(),
+                      firstDate: date_echeance.isAfter(DateTime.now()) ? DateTime.now() : date_echeance,
                       lastDate: DateTime.now().add(const Duration(days: 40)),
                       initialDate: DateTime.now(),
                       //autovalidateMode: AutovalidateMode.always,

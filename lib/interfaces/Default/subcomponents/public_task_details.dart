@@ -50,7 +50,7 @@ class _PublicTaskDetailsState extends State<PublicTaskDetails> {
                       height: 10.0,
                     ),
                     TextFormField(
-    readOnly: true,
+                      readOnly: true,
                       initialValue: globals.task?.title,
                       decoration: InputDecoration(
                         hintText: 'le titre de la tache publique',
@@ -77,8 +77,7 @@ class _PublicTaskDetailsState extends State<PublicTaskDetails> {
                       height: 10.0,
                     ),
                     TextFormField(
-                          readOnly: true,
-
+                      readOnly: true,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
                       initialValue: globals.task?.description,
@@ -120,7 +119,11 @@ class _PublicTaskDetailsState extends State<PublicTaskDetails> {
                         labelText: 'Choisir une date',
                       ),
                       initialValue: globals.task?.date_echeance,
-                      firstDate: DateTime.now(),
+                      firstDate: globals.task?.date_echeance != null
+                          ? globals.task!.date_echeance.isAfter(DateTime.now())
+                              ? DateTime.now()
+                              : globals.task?.date_echeance
+                          : DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 40)),
                       initialDate: DateTime.now(),
                       //autovalidateMode: AutovalidateMode.always,
