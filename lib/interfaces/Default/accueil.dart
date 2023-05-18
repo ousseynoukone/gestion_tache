@@ -1,5 +1,6 @@
 //import 'dart:js_util';
 import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
+import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
   void _deleteLoginCredentials() {
-    rememberMe.logOut();
+    sharedPreference.removeUserCredential();
   }
 
   void _goBack() async {
@@ -163,7 +164,15 @@ class _AccueilState extends State<Accueil> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: const Tasks(),
+                child: Tasks(onDelete2: () {
+                  HttpFirebase.fetchTasksNumber(globals.user?.uid)
+                      .then((value) {
+                    setState(() {
+                      print(value);
+                      globals.number = value;
+                    });
+                  });
+                }),
               ),
             ),
           ],

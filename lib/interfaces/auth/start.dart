@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
+import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
 import 'package:gestion_tache/interfaces/auth/authEmailPasswordCheck.dart';
 import 'package:gestion_tache/globals/globals.dart' as globals;
 import '../Default/accueil.dart';
@@ -20,9 +20,32 @@ class _StartState extends State<Start> {
     _isLogIn = true;
   }
 
+  // void loadAuthCredential() async {
+  //   Map<String, dynamic> credential = await rememberMe.readAuthCredential();
+  //   if (credential.isEmpty == false) {
+  //     var rep = await AuthCheckAndCreate.userLogIn(
+  //         credential['email'], credential['password']);
+  //     if (rep == null) {
+  //       setState(() {
+  //         _isLogIn = false;
+  //       });
+  //       Navigator.push(
+  //           context, MaterialPageRoute(builder: (context) => const Accueil()));
+  //     } else {}
+  //   } else {
+  //     setState(() {
+  //       _isLogIn = false;
+  //     });
+  //   }
+  // }
+
   void loadAuthCredential() async {
-    Map<String, dynamic> credential = await rememberMe.readAuthCredential();
-    if (credential.isEmpty == false) {
+    Map<String, dynamic> credential =
+        await sharedPreference.getUserCredential();
+    print(credential["username"]);
+    if (credential.isNotEmpty &&
+        credential['email'] != null &&
+        credential['password'] != null) {
       var rep = await AuthCheckAndCreate.userLogIn(
           credential['email'], credential['password']);
       if (rep == null) {

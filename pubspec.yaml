@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.17.0
+  intl: ^0.18.0
+
   date_field: ^3.0.0
   convert: ^3.1.1
 
@@ -51,7 +52,10 @@ dependencies:
   firebase_core_web: ^2.2.2
   firebase_auth_web: ^5.2.10
   path_provider: ^2.0.14
+  flutter_localizations:
+    sdk: flutter 
  # fluttertoast: ^8.2.1
+  shared_preferences: ^2.1.1
 
 
  

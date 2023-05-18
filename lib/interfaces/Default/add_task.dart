@@ -5,6 +5,7 @@ import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
 import '../../globals/globals.dart' as globals;
 import 'package:gestion_tache/http/http_task_firebase.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -113,6 +114,7 @@ class _AddTask extends State<AddTask> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      
         child: Scaffold(
       appBar: AppBar(
         title: globals.task == null
@@ -160,7 +162,7 @@ class _AddTask extends State<AddTask> {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: 'le titre de votre tache',
+                        hintText: 'Le titre de votre tache',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide(
@@ -235,6 +237,7 @@ class _AddTask extends State<AddTask> {
                         suffixIcon: Icon(Icons.event_note),
                         labelText: 'Choisir une date',
                       ),
+
                       initialValue: date_echeance,
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 40)),

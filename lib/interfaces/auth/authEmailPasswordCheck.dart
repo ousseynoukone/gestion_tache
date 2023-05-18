@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gestion_tache/globals/globals.dart' as globals;
-import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
+import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
 
 class AuthCheckAndCreate {
   static Future<String?> userLogIn(String mail, String pwd) async {
@@ -14,9 +14,9 @@ class AuthCheckAndCreate {
       Map<String, dynamic> user = {
         'email': result.user?.email,
         'password': pwd,
-        'name': result.user?.displayName
+        'username': result.user?.displayName
       };
-     await rememberMe.writeAuthCredential(user);
+     await sharedPreference.saveUserCredential(user);
 
       return null;
     } on FirebaseAuthException catch (ex) {

@@ -194,7 +194,9 @@ class TaskItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(task.title),
+              task.title.length <= 35
+                  ? Text(task.title)
+                  : Text(task.title.substring(0, 35) + '...'),
               const SizedBox(height: 10.0),
               Text(formatDate())
             ],
