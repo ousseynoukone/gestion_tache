@@ -10,6 +10,13 @@ class AuthCheckAndCreate {
       final result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: mail, password: pwd);
       print(result.user?.email);
+      var u = result.user;
+
+      print(u!.emailVerified);
+      if (u!.emailVerified == false) {
+        return "false";
+      }
+
       globals.user = result.user;
       Map<String, dynamic> user = {
         'email': result.user?.email,
@@ -19,7 +26,6 @@ class AuthCheckAndCreate {
       var isExist = await sharedPreference.isUserExist();
 
       if (isExist == false) {
-     
         await sharedPreference.saveUserCredential(user);
       } else {
         print("user already exist ! ");
@@ -35,10 +41,12 @@ class AuthCheckAndCreate {
     FirebaseAuth.instance.setLanguageCode('fr');
 
     try {
-      var result = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: mail, password: pwd);
+      var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: mail.trim(), password: pwd.trim());
       var u = result.user;
       u?.updateDisplayName(name);
+      u!.sendEmailVerification(); //Pour envoyer un email de verification
+
       return null;
     } on FirebaseAuthException catch (ex) {
       return "${ex.code}: ${ex.message}";

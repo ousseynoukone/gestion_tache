@@ -1,5 +1,4 @@
 //import 'dart:js_util';
-import 'package:gestion_tache/interfaces/auth/rememberMe.dart';
 import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
