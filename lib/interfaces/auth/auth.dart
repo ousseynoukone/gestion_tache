@@ -52,14 +52,20 @@ class _AuthState extends State<Auth> {
                   text: TextSpan(
                     text: 'Authentification'.toUpperCase(),
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Theme.of(context).primaryColor,
+                      //color: Theme.of(context).primaryColor,
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
                       TextSpan(
                         style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Theme.of(context).primaryColor,
+                          //color: Theme.of(context).primaryColor,
                           fontSize: 35.0,
                           fontWeight: FontWeight.bold,
                         ),

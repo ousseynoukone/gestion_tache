@@ -109,7 +109,11 @@ class _RegisterState extends State<Register> {
                       Text("S'INSCRIRE",
                           style: TextStyle(
                               fontSize: 20,
-                              color: Theme.of(context).primaryColor)),
+                              //color: Theme.of(context).primaryColor)
+                              color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Theme.of(context).primaryColor,
+                              )),
                       const SizedBox(
                         height: 5.0,
                       ),
