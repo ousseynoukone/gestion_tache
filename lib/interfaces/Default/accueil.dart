@@ -82,6 +82,7 @@ class _AccueilState extends State<Accueil> {
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
                 _deleteLoginCredentials();
+                globals.name = "";
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => const Auth()));
               },
@@ -110,13 +111,21 @@ class _AccueilState extends State<Accueil> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Bienvenue ${globals.user?.displayName}",
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
+                          globals.name.isEmpty
+                              ? Text(
+                                  "Bienvenue ${globals.user?.displayName}",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )
+                              : Text(
+                                  "Bienvenue ${globals.name}",
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
                           const SizedBox(
                             height: 15,
                           ),

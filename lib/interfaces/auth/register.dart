@@ -56,7 +56,7 @@ class _RegisterState extends State<Register> {
       setState(() {
         _isAuthenticating = false;
       });
-      globals.successMessage = "Compte crée avec succes ! ";
+      globals.successMessage = "Compte crée avec succes ! Un email d'activation de compte vous a été envoyé.  ";
     } else {
       globals.errorMessage = response;
     }

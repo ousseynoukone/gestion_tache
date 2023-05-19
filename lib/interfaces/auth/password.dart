@@ -24,15 +24,12 @@ class _PasswordState extends State<Password> {
           context,
           MaterialPageRoute(builder: (context) => const Accueil()),
         );
-      } else if (response == "false")
-      {
-                globals.errorMessage = "Veillez confirmer votre adresse email ! ";
+      } else if (response == "false") {
+        globals.errorMessage =
+            "Votre compte n'est pas active , un email d'activation vous a été envoyé ! ";
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Auth()));
-
-      }
-      
-      else {
+      } else {
         print(response);
         globals.errorMessage = "Adresse email ou/et mots de passe incorrecte .";
         Navigator.push(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/auth/password.dart';
 import 'package:gestion_tache/interfaces/auth/register.dart';
+import 'package:gestion_tache/interfaces/auth/authEmailPasswordCheck.dart';
 import '../../globals/globals.dart' as globals;
+import '../Default/accueil.dart';
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -12,6 +14,18 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   final GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
+
+  void SignInWithGoogle() async {
+    var result = await AuthCheckAndCreate.googleLogIn();
+    result == true
+        ? Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Accueil()))
+        : '';
+  }
+
+  void SignInWithFacebook() {
+    print("coucou facebook");
+  }
 
   String adr_email = "";
   final RegExp emailRegExp = RegExp(r"[a-z0-9\._-]+@[a-z0-9\._-]+\.[a-z]+");
@@ -53,7 +67,7 @@ class _AuthState extends State<Auth> {
                     text: 'Authentification'.toUpperCase(),
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      fontSize: 30.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                     children: [
@@ -198,6 +212,53 @@ class _AuthState extends State<Auth> {
                           ],
                         ),
                       ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Text("Ou se connecter avec  ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18, fontFamily: "arial")),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          GestureDetector(
+                            child: Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage('resources/google.png'),
+                                    fit: BoxFit.cover),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            onTap: () {
+                              SignInWithGoogle();
+                            },
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          GestureDetector(
+                            child: Container(
+                              height: 90,
+                              width: 135,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('resources/facebook.png'),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              SignInWithFacebook();
+                            },
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),

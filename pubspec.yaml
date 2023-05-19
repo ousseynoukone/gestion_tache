@@ -52,6 +52,7 @@ dependencies:
   firebase_core_web: ^2.2.2
   firebase_auth_web: ^5.2.10
   path_provider: ^2.0.14
+  google_sign_in: ^6.1.0
 
   flutter_localizations:
     sdk: flutter 
@@ -87,6 +88,8 @@ flutter:
   assets:
     - resources/start.jpg  
     - resources/login.png  
+    - resources/google.png  
+    - resources/facebook.png 
    # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

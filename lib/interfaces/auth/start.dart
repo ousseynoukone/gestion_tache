@@ -42,7 +42,8 @@ class _StartState extends State<Start> {
   void loadAuthCredential() async {
     Map<String, dynamic> credential =
         await sharedPreference.getUserCredential();
-    print(credential["username"]);
+    Map<String, dynamic> credentialGoogle =
+        await sharedPreference.getUserGoogleCredential();
     if (credential.isNotEmpty &&
         credential['email'] != null &&
         credential['password'] != null) {
@@ -55,6 +56,20 @@ class _StartState extends State<Start> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const Accueil()));
       } else {}
+    } else if (credentialGoogle.isNotEmpty &&
+        credentialGoogle['accessToken'] != null &&
+        credentialGoogle['idToken'] != null) {
+
+      var rep = await AuthCheckAndCreate.userGoogleLogIn (
+          credentialGoogle['accessToken'], credentialGoogle['idToken']);
+
+      if (rep == null) {
+        setState(() {
+          _isLogIn = false;
+        });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const Accueil()));
+      }
     } else {
       setState(() {
         _isLogIn = false;
