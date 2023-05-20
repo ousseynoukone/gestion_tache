@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gestion_tache/interfaces/Default/models/task.dart';
+import 'package:Groupe_8/interfaces/Default/models/task.dart';
 
 class HttpFirebase {
   HttpFirebase();

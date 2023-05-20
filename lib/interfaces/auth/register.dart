@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/auth/auth.dart';
+import 'package:Groupe_8/interfaces/auth/auth.dart';
 import '../../globals/globals.dart' as globals;
 
 import 'authEmailPasswordCheck.dart' as authObject;

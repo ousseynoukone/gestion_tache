@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gestion_tache/globals/globals.dart' as globals;
-import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
+import 'package:Groupe_8/globals/globals.dart' as globals;
+import 'package:Groupe_8/interfaces/auth/sharedPreference.dart';
 
 class AuthCheckAndCreate {
   static Future<String?> userLogIn(String mail, String pwd) async {

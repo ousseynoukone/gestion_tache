@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
-import 'package:gestion_tache/interfaces/auth/authEmailPasswordCheck.dart';
-import 'package:gestion_tache/globals/globals.dart' as globals;
+import 'package:Groupe_8/interfaces/auth/sharedPreference.dart';
+import 'package:Groupe_8/interfaces/auth/authEmailPasswordCheck.dart';
+import 'package:Groupe_8/globals/globals.dart' as globals;
 import '../Default/accueil.dart';
 import 'auth.dart';
-import 'package:gestion_tache/model_theme.dart';
+import 'package:Groupe_8/model_theme.dart';
 import 'package:provider/provider.dart';
 
 class Start extends StatefulWidget {
