@@ -19,6 +19,8 @@ class Accueil extends StatefulWidget {
 }
 
 class _AccueilState extends State<Accueil> {
+  bool _switchValue = false;
+
   void _deleteLoginCredentials() {
     sharedPreference.removeUserCredential();
   }
@@ -111,6 +113,25 @@ class _AccueilState extends State<Accueil> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Switch(
+                                value: _switchValue,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _switchValue = value;
+                                  });
+                                },
+                              ),
+                              Text(
+                                _switchValue
+                                    ? 'Mode API activé'
+                                    : 'Mode API désactivé',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
                           globals.name.isEmpty
                               ? Text(
                                   "Bienvenue ${globals.user?.displayName}",
