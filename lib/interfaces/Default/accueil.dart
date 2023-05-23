@@ -1,14 +1,19 @@
 //import 'dart:js_util';
-import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
+import 'package:Groupe_8/interfaces/auth/sharedPreference.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/Default/public_task.dart';
-import 'package:gestion_tache/interfaces/Default/add_task.dart';
-import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
-import 'package:gestion_tache/http/http_task_firebase.dart';
-import 'package:gestion_tache/http/http_task.dart';
-import 'package:gestion_tache/globals/globals.dart' as globals;
+import 'package:Groupe_8/interfaces/Default/public_task.dart';
+import 'package:Groupe_8/interfaces/Default/add_task.dart';
+import 'package:Groupe_8/interfaces/Default/subcomponents/tasks.dart';
+import 'package:Groupe_8/http/http_task_firebase.dart';
+import 'package:Groupe_8/http/http_task.dart';
+import 'package:Groupe_8/globals/globals.dart' as globals;
+import 'package:Groupe_8/interfaces/Default/public_task.dart';
+import 'package:Groupe_8/interfaces/Default/add_task.dart';
+import 'package:Groupe_8/interfaces/Default/subcomponents/tasks.dart';
+import 'package:Groupe_8/http/http_task_firebase.dart';
+import 'package:Groupe_8/globals/globals.dart' as globals;
 
 import '../auth/auth.dart';
 

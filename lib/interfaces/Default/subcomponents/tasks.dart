@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/http/http_task.dart';
-import 'package:gestion_tache/http/http_task_firebase.dart ';
-import 'package:gestion_tache/interfaces/Default/add_task.dart';
-import 'package:gestion_tache/interfaces/Default/models/task.dart';
+import 'package:Groupe_8/http/http_task.dart';
+import 'package:Groupe_8/http/http_task_firebase.dart ';
+import 'package:Groupe_8/interfaces/Default/add_task.dart';
+import 'package:Groupe_8/interfaces/Default/models/task.dart';
 import 'package:intl/intl.dart';
 import '../../../globals/globals.dart' as globals;
 

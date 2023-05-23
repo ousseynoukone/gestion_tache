@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/auth/sharedPreference.dart';
-import 'package:gestion_tache/interfaces/auth/authEmailPasswordCheck.dart';
-import 'package:gestion_tache/globals/globals.dart' as globals;
+import 'package:Groupe_8/interfaces/auth/sharedPreference.dart';
+import 'package:Groupe_8/interfaces/auth/authEmailPasswordCheck.dart';
+import 'package:Groupe_8/globals/globals.dart' as globals;
 import '../Default/accueil.dart';
 import 'auth.dart';
+
+import 'package:Groupe_8/model_theme.dart';
+import 'package:provider/provider.dart';
 
 class Start extends StatefulWidget {
   const Start({super.key});
@@ -113,35 +116,38 @@ class _StartState extends State<Start> {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(
-            height: 65.0,
-          ),
-          ElevatedButton(
-              onPressed: _isLogIn
-                  ? null
-                  : () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Auth()));
-                    },
-              style: ElevatedButton.styleFrom(
-                elevation: 5.0,
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Theme.of(context).secondaryHeaderColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                minimumSize: const Size(200, 50),
+              const SizedBox(
+                height: 65.0,
               ),
-              child: _isLogIn
-                  ? CircularProgressIndicator()
-                  : Text(
-                      ' Allons-y ! '.toUpperCase(),
-                      style: const TextStyle(fontSize: 15),
-                    )),
+              ElevatedButton(
+                  onPressed: _isLogIn
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Auth()));
+                        },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5.0,
+                    backgroundColor: themeNotifier.isDark ? Color.fromARGB(255, 35, 11, 77) : Theme.of(context).primaryColor,//Theme.of(context).primaryColor,
+                    foregroundColor: Theme.of(context).secondaryHeaderColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    minimumSize: const Size(200, 50),
+                  ),
+                  child: _isLogIn
+                      ? CircularProgressIndicator()
+                      : Text(
+                          ' Allons-y ! '.toUpperCase(),
+                          style: const TextStyle(fontSize: 15),
+                        )),
         ],
       )),
     );
+
+
+        
   }
 }

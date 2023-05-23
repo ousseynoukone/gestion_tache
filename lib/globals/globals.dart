@@ -1,7 +1,7 @@
 library gestion_tache.globals;
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gestion_tache/interfaces/Default/models/task.dart';
+import 'package:Groupe_8/interfaces/Default/models/task.dart';
 
 String username = "";
 String name = "";

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/globals/globals.dart' as globals;
+import 'package:Groupe_8/globals/globals.dart' as globals;
 import 'package:date_field/date_field.dart';
-import 'package:gestion_tache/interfaces/Default/public_task.dart';
+import 'package:Groupe_8/interfaces/Default/public_task.dart';
 
 class PublicTaskDetails extends StatefulWidget {
   const PublicTaskDetails({super.key});

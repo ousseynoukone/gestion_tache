@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_tache/interfaces/auth/password.dart';
-import 'package:gestion_tache/interfaces/auth/register.dart';
-import 'package:gestion_tache/interfaces/auth/authEmailPasswordCheck.dart';
+import 'package:Groupe_8/interfaces/auth/password.dart';
+import 'package:Groupe_8/interfaces/auth/register.dart';
+import 'package:Groupe_8/interfaces/auth/authEmailPasswordCheck.dart';
+import 'package:Groupe_8/interfaces/auth/password.dart';
+import 'package:Groupe_8/interfaces/auth/register.dart';
 import '../../globals/globals.dart' as globals;
 import '../Default/accueil.dart';
 
