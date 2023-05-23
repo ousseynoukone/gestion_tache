@@ -69,21 +69,17 @@ class MyApp extends StatelessWidget {
                     //       primaryColor: const Color.fromARGB(255, 68, 21, 151),
                     //       primaryColorDark: Colors.redAccent,
                     //     ),
-
-                  themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-                  // theme: ThemeData.light().copyWith(
-                  // primaryColor: const Color.fromARGB(255, 68, 21, 151),
-                  // primaryColorDark: Colors.redAccent,
-                  // ),
-                    theme: themeNotifier.isDark
-                      ? ThemeData(
-                          brightness: Brightness.dark,
-                        )
-                      : ThemeData(
-                          brightness: Brightness.light,
-                          primaryColor: const Color.fromARGB(255, 68, 21, 151),
-                          primaryColorDark: Colors.redAccent,
-                        ),
+                  // themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                  themeMode: ThemeMode.system,
+                  theme: themeNotifier.isDark
+                    ? ThemeData(
+                        brightness: Brightness.dark,
+                      )
+                    : ThemeData(
+                        brightness: Brightness.light,
+                        primaryColor: const Color.fromARGB(255, 68, 21, 151),
+                        primaryColorDark: Colors.redAccent,
+                      ),
                     darkTheme: ThemeData.dark(),
                   //home: const Home(),
                   home: const Start(),

@@ -128,7 +128,7 @@ class _StartState extends State<Start> {
                         },
                   style: ElevatedButton.styleFrom(
                     elevation: 5.0,
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: themeNotifier.isDark ? Color.fromARGB(255, 35, 11, 77) : Theme.of(context).primaryColor,//Theme.of(context).primaryColor,
                     foregroundColor: Theme.of(context).secondaryHeaderColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
