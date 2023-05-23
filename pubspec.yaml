@@ -53,12 +53,15 @@ dependencies:
   firebase_auth_web: ^5.2.10
   path_provider: ^2.0.14
   google_sign_in: ^6.1.0
-  flutter_facebook_auth: ^5.0.11      
+  flutter_facebook_auth: ^5.0.11   
+  provider: ^6.0.5   
 
   flutter_localizations:
     sdk: flutter 
  # fluttertoast: ^8.2.1
   shared_preferences: ^2.1.1
+  firebase_messaging: ^14.6.1
+  flutter_local_notifications: ^14.1.0
 
 
  

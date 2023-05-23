@@ -4,7 +4,6 @@ import 'package:Groupe_8/interfaces/auth/authEmailPasswordCheck.dart';
 import 'package:Groupe_8/globals/globals.dart' as globals;
 import '../Default/accueil.dart';
 import 'auth.dart';
-
 import 'package:Groupe_8/model_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +21,7 @@ class _StartState extends State<Start> {
     loadAuthCredential();
     _isLogIn = true;
   }
+
 
   // void loadAuthCredential() async {
   //   Map<String, dynamic> credential = await rememberMe.readAuthCredential();
@@ -41,7 +41,6 @@ class _StartState extends State<Start> {
   //     });
   //   }
   // }
-
   void loadAuthCredential() async {
     Map<String, dynamic> credential =
         await sharedPreference.getUserCredential();
@@ -80,42 +79,57 @@ class _StartState extends State<Start> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Consumer<ModelTheme>(
+        builder: (context, ModelTheme themeNotifier, child) {
+        return Scaffold(
+          appBar: AppBar(
+              title: Text(themeNotifier.isDark ? "Dark Mode" : "Light Mode"),
+              actions: [
+                IconButton(
+                    icon: Icon(themeNotifier.isDark
+                        ? Icons.nightlight_round
+                        : Icons.wb_sunny),
+                    onPressed: () {
+                      themeNotifier.isDark
+                          ? themeNotifier.isDark = false
+                          : themeNotifier.isDark = true;
+                    })
+              ]),
           body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: const SizedBox(
-                  height: 400,
-                  child: Image(
-                    image: AssetImage("resources/start.jpg"),
-                    fit: BoxFit.cover,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: const SizedBox(
+                      height: 400,
+                      child: Image(
+                        image: AssetImage("resources/start.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 25.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              "Bienvenue dans votre application de gestion des tâches",
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 19),
-              textAlign: TextAlign.center,
-            ),
-          ),
+              const SizedBox(
+                height: 25.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  "Bienvenue dans votre application de gestion des tâches",
+                  style: TextStyle(
+                      color: themeNotifier.isDark ? Colors.white : Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 19),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               const SizedBox(
                 height: 65.0,
               ),
@@ -143,11 +157,8 @@ class _StartState extends State<Start> {
                           ' Allons-y ! '.toUpperCase(),
                           style: const TextStyle(fontSize: 15),
                         )),
-        ],
-      )),
-    );
-
-
-        
+            ],
+          ));
+    });
   }
 }
