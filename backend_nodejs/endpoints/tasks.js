@@ -56,7 +56,7 @@ exports.getTasks = async (request, response) => {
         let data = [];
 
         querySnapshot.forEach((doc) => {
-            if(doc.data()['userID']=="0")
+            if(doc.data()['status']==1 || doc.data()['status']==2 )
             {
             let doc_id = doc.ref.id ;
             let t = doc.data()["date_echeance"] ;
@@ -98,24 +98,48 @@ exports.deleteTask = async (request, response) => {
 }
 }
   
-exports.numberItem = async (req, res) => {
+exports.numberItem = async (request, res) => {
     const querySnapshot = await getDocs(collection(db, "tasks"));
     //const booksRef = db.collection('tasks');
      console.log("numberItem ran ! ")
         try{
-            let number = 0;
-    
-            querySnapshot.forEach((doc) => {
-                if(doc.data()['userID']=="0")
-                {
-                    number += 1;
+          let number = 0;
+          let number1 = 0;
+          let number2 = 0;
+          let number3 = 0;
+          var allNumber = []
 
-                }
+            querySnapshot.forEach((doc) => {
+              if(  (doc.data()['status']==1 || doc.data()['status']==2 ))
+              {
+                  number += 1;
+
+              }
+              if( (doc.data()['status']==1 || doc.data()['status']==2 ) && doc.data()['state']==0 )
+              {
+                  number1 += 1;
+
+              }
+
+              if(  (doc.data()['status']==1 || doc.data()['status']==2 ) && doc.data()['state']==1 )
+              {
+                  number2 += 1;
+
+              }
+
+              if(  (doc.data()['status']==1 || doc.data()['status']==2 ) && doc.data()['state']==2)
+              {
+                  number3 += 1;
+
+              }
                
 
               });
-         res.status(201).json({ number : number });
-        
+              allNumber.push(number)
+              allNumber.push(number1)
+              allNumber.push(number2)
+              allNumber.push(number3)
+              res.status(201).json({ allNumber : allNumber });        
         } catch (error) {
         console.log(error); 
           //  return res

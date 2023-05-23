@@ -20,7 +20,7 @@ app.get("/api/v1/tasks/:id", getTasksByUser);
 app.get("/api/v1/tasks", getTasks);
 app.delete("/api/v1/taskDelete/:id",deleteTask);
 app.post("/api/v1/tasks", addTask);
-app.get("/api/v1/tasks/number", numberItem);
+app.get("/api/v1/tasks/public/task/numbers", numberItem);
 app.get("/api/v1/tasks/numbers/:id", numberItemByUser);
 app.patch("/api/v1/tasks", updateTask);
 

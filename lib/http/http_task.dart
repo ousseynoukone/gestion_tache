@@ -49,6 +49,25 @@ class HttpTask {
     return realNumber;
   }
 
+  static Future<List<int>> fetchTasksNumbers() async {
+    String endpoint1 = "api/v1/tasks/public/task/numbers/";
+    List<int> realNumber = [];
+    final response1 = await http.get(Uri.parse(BASE_URL + endpoint1));
+    var number = json.decode(response1.body);
+    print(number);
+    if (number['allNumber'][0] != null &&
+        number['allNumber'][1] != null &&
+        number['allNumber'][2] != null &&
+        number['allNumber'][3] != null) {
+      realNumber.add(number['allNumber'][0]);
+      realNumber.add(number['allNumber'][1]);
+      realNumber.add(number['allNumber'][2]);
+      realNumber.add(number['allNumber'][3]);
+    }
+    print("Public task fetch from Task fetcher frealNumber $realNumber");
+    return realNumber;
+  }
+
   static Future<http.Response> deleteTask(id) async {
     String endpoint = "api/v1/taskDelete/$id";
 

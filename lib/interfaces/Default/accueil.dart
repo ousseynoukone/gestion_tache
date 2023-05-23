@@ -142,7 +142,11 @@ class _AccueilState extends State<Accueil> {
                                     _switchValue = value;
                                     globals.apiMode = value;
                                     globals.onApiModeChanged(value);
-                                    globals.onApiModeChangedForTaskNumber(value);
+                                    globals.onApiModeChangedPublicTask(value);
+                                    globals.onApiModeChangedForPublicTaskNumber(
+                                        value);
+                                    globals
+                                        .onApiModeChangedForTaskNumber(value);
                                   });
                                 },
                               ),

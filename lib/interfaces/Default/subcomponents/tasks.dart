@@ -82,11 +82,14 @@ class _Tasks extends State<Tasks> {
                           setState(() {
                             print("calback called suppression called");
                             initializeTasks();
+
                             widget.onDelete2();
+                            initializeTasks();
                           });
                         },
-                        fetchTask: () {
+                        fetchTask: () async {
                           initializeTasks();
+                          widget.onDelete2();
                         },
                       );
                     });
@@ -117,6 +120,7 @@ class TaskItem extends StatelessWidget {
 
   void updateTask(int state, id) async {
     await HttpFirebase.TaskUpdateState(state, id);
+    fetchTask();
   }
 
   String formatDateDebut() {

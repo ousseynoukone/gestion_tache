@@ -15,3 +15,8 @@ bool apiMode = false;
 Future<List<Task>>? tasks;
 Function(bool) onApiModeChanged = (_) {};
 Function(bool) onApiModeChangedForTaskNumber = (_) {};
+
+Function(bool) onApiModeChangedPublicTask = (_) {};
+
+Function(bool) onApiModeChangedForPublicTaskNumber = (_) {};
+

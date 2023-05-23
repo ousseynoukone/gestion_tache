@@ -31,28 +31,40 @@ class _PublicTaskState extends State<PublicTask> {
     super.initState();
     //globals.tasks =
 
-    setState(() {
-      tasks = HttpFirebase.getTasks();
-    });
-    HttpFirebase.fetchTasksNumbers().then((value) {
+    globals.onApiModeChangedPublicTask = (value) {
       setState(() {
-        nbTask = value;
-        print(value);
+        initializeTasks();
       });
-    });
+    };
+    initializeTasks();
+  }
+
+  void initializeTasks() {
+    if (globals.apiMode == false) {
+      setState(() {
+        tasks = HttpFirebase.getTasks();
+
+        HttpFirebase.fetchTasksNumbers().then((value) {
+          setState(() {
+            nbTask = value;
+          });
+        });
+      });
+    } else {
+      setState(() {
+        tasks = HttpTask.fetchTasks();
+
+        HttpTask.fetchTasksNumbers().then((value) {
+          setState(() {
+            nbTask = value;
+          });
+        });
+      });
+    }
   }
 
   void refresh() {
-    setState(() {
-      tasks = HttpFirebase.getTasks();
-    });
-
-    HttpFirebase.fetchTasksNumbers().then((value) {
-      setState(() {
-        nbTask = value;
-        print(value);
-      });
-    });
+    initializeTasks();
   }
 
   @override
