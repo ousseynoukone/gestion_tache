@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:gestion_tache/http/http_task.dart';
+import 'package:gestion_tache/http/http_task_firebase.dart';
 import 'package:intl/intl.dart';
 import '../../globals/globals.dart' as globals;
 
@@ -25,14 +26,15 @@ class _PublicTaskState extends State<PublicTask> {
   }
 
   Future<List<Task>>? tasks;
-  int nbTask = 0;
+  List<int> nbTask = [0, 0, 0, 0];
   void initState() {
     super.initState();
     //globals.tasks =
 
-    tasks = HttpTask.fetchTasks();
-
-    HttpTask.fetchTasksNumber().then((value) {
+    setState(() {
+      tasks = HttpFirebase.getTasks();
+    });
+    HttpFirebase.fetchTasksNumbers().then((value) {
       setState(() {
         nbTask = value;
         print(value);
@@ -42,10 +44,10 @@ class _PublicTaskState extends State<PublicTask> {
 
   void refresh() {
     setState(() {
-      tasks = HttpTask.fetchTasks();
+      tasks = HttpFirebase.getTasks();
     });
 
-    HttpTask.fetchTasksNumber().then((value) {
+    HttpFirebase.fetchTasksNumbers().then((value) {
       setState(() {
         nbTask = value;
         print(value);
@@ -99,12 +101,33 @@ class _PublicTaskState extends State<PublicTask> {
                         height: 15,
                       ),
                       Text(
-                        "Nombre de tache total : ${nbTask}",
+                        "Nombre de tache total : ${nbTask[0]}",
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 17),
-                      )
+                      ),
+                      Text(
+                        "Nombre de tâche échues : ${nbTask![3] != null ? nbTask![3] : '0'}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Nombre de tâche en cours : ${nbTask![2] != null ? nbTask![2] : '0'}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                      Text(
+                        "Nombre de tâche en attente : ${nbTask![1] != null ? nbTask![1] : '0'}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
                     ],
                   ),
                 ],
@@ -179,46 +202,159 @@ class TaskItem extends StatelessWidget {
   final Task task;
   const TaskItem({super.key, required this.task});
 
-  String formatDate() {
+  String formatDateEcheance() {
     var f = DateFormat("dd / MM / yyyy hh:mm:ss").format(task.date_echeance);
+    return f;
+  }
+
+  String formatDateDebut() {
+    var f = DateFormat("dd / MM / yyyy hh:mm:ss").format(task.date_debut);
     return f;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        decoration: BoxDecoration(
+          color: Theme.of(context)
+              .primaryColor, // Set the background color of the container
+          borderRadius: BorderRadius.circular(5.0), // Set the border radius
+        ),
+        margin: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              task.title.length <= 35
-                  ? Text(task.title)
-                  : Text(task.title.substring(0, 35) + '...'),
-              const SizedBox(height: 10.0),
-              Text(formatDate())
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 100),
+                    child: Text(
+                      'De la part de : ${task.username}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  task.title.length <= 20
+                      ? Text(
+                          "Titre : " + task.title,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        )
+                      : Text(
+                          "Titre : " + task.title.substring(0, 20) + '...',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    "Début: ${formatDateDebut()}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "Échéance: ${formatDateEcheance()}",
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  task.state == 0
+                      ? Container(
+                          height: 40,
+                          width: 200,
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'resources/waiting.png',
+                                fit: BoxFit.contain,
+                              ),
+                              Text(
+                                ' En attente ',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : task.state == 1
+                          ? Container(
+                              height: 40,
+                              width: 200,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'resources/loading.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                  Text(
+                                    ' En cours ',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              height: 40,
+                              width: 200,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'resources/done.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                  Text(
+                                    ' Échu ',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                ],
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  globals.task = task;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PublicTaskDetails(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.arrow_forward_ios),
+                label: const Text(""),
+                style: ButtonStyle(
+                  backgroundColor: const MaterialStatePropertyAll(Colors.white),
+                  foregroundColor: MaterialStatePropertyAll(
+                    Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
             ],
           ),
-          ElevatedButton.icon(
-            onPressed: () {
-              globals.task = task;
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PublicTaskDetails()));
-            },
-            icon: const Icon(Icons.arrow_forward_ios),
-            label: const Text(""),
-            style: ButtonStyle(
-              backgroundColor: const MaterialStatePropertyAll(Colors.white),
-              foregroundColor:
-                  MaterialStatePropertyAll(Theme.of(context).primaryColor),
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }

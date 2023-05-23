@@ -6,10 +6,12 @@ import 'package:gestion_tache/interfaces/Default/models/task.dart';
 String username = "";
 String name = "";
 String password = "";
-User ? user ;
+User? user;
 String? errorMessage;
 String? successMessage;
-int? number = 0;
+List<int> number = [0, 0, 0, 0];
 Task? task;
-
+bool apiMode = false;
 Future<List<Task>>? tasks;
+Function(bool) onApiModeChanged = (_) {};
+Function(bool) onApiModeChangedForTaskNumber = (_) {};

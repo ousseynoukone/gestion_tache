@@ -7,6 +7,7 @@ import 'package:gestion_tache/interfaces/Default/public_task.dart';
 import 'package:gestion_tache/interfaces/Default/add_task.dart';
 import 'package:gestion_tache/interfaces/Default/subcomponents/tasks.dart';
 import 'package:gestion_tache/http/http_task_firebase.dart';
+import 'package:gestion_tache/http/http_task.dart';
 import 'package:gestion_tache/globals/globals.dart' as globals;
 
 import '../auth/auth.dart';
@@ -35,14 +36,32 @@ class _AccueilState extends State<Accueil> {
   void initState() {
     super.initState();
     //globals.tasks =
-    print("global=${globals.number}");
-
-    HttpFirebase.fetchTasksNumber(globals.user?.uid).then((value) {
+    globals.onApiModeChangedForTaskNumber = (value) {
       setState(() {
-        print(value);
-        globals.number = value;
+        initializeTasks();
       });
-    });
+    };
+    initializeTasks();
+  }
+
+  void initializeTasks() {
+    if (globals.apiMode == false) {
+      setState(() {
+        HttpFirebase.fetchTasksNumber(globals.user?.uid).then((value) {
+          setState(() {
+            globals.number = value;
+          });
+        });
+      });
+    } else {
+      setState(() {
+        HttpTask.fetchTasksNumberByUser(globals.user?.uid).then((value) {
+          setState(() {
+            globals.number = value;
+          });
+        });
+      });
+    }
   }
 
   int _selectedIndex = 0;
@@ -117,18 +136,24 @@ class _AccueilState extends State<Accueil> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Switch(
-                                value: _switchValue,
+                                value: globals.apiMode,
                                 onChanged: (bool value) {
                                   setState(() {
                                     _switchValue = value;
+                                    globals.apiMode = value;
+                                    globals.onApiModeChanged(value);
+                                    globals.onApiModeChangedForTaskNumber(value);
                                   });
                                 },
                               ),
                               Text(
-                                _switchValue
+                                globals.apiMode
                                     ? 'Mode API activé'
                                     : 'Mode API désactivé',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color:
+                                        Theme.of(context).secondaryHeaderColor),
                               ),
                             ],
                           ),
@@ -151,12 +176,33 @@ class _AccueilState extends State<Accueil> {
                             height: 15,
                           ),
                           Text(
-                            "Nombre de tâche total : ${globals.number != null ? globals.number : '0'}",
+                            "Nombre de tâche total : ${globals.number![0] != null ? globals.number![0] : '0'}",
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 17),
-                          )
+                          ),
+                          Text(
+                            "Nombre de tâche échues : ${globals.number![3] != null ? globals.number![3] : '0'}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
+                          Text(
+                            "Nombre de tâche en cours : ${globals.number![2] != null ? globals.number![2] : '0'}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
+                          Text(
+                            "Nombre de tâche en attente : ${globals.number![1] != null ? globals.number![1] : '0'}",
+                            style: const TextStyle(
+                                color: Colors.white,
+                                // fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
                         ],
                       ),
                     ],

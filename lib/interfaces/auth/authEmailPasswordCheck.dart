@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 class AuthCheckAndCreate {
   static Future<String?> userLogIn(String mail, String pwd) async {
     FirebaseAuth.instance.setLanguageCode('fr');
-
+    // sharedPreference.removeUserCredential();
     try {
       final result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: mail, password: pwd);
@@ -81,50 +81,51 @@ class AuthCheckAndCreate {
     }
   }
 
-static Future<bool> googleLogIn() async {
-  try {
-    final GoogleSignInAccount? signInUser = await GoogleSignIn().signIn();
-    if (signInUser != null) {
-      final GoogleSignInAuthentication? authUser =
-          await signInUser.authentication;
-      if (authUser != null) {
-        final credential = GoogleAuthProvider.credential(
-          accessToken: authUser.accessToken,
-          idToken: authUser.idToken,
-        );
+  static Future<bool> googleLogIn() async {
+    try {
+      final GoogleSignInAccount? signInUser = await GoogleSignIn().signIn();
+      if (signInUser != null) {
+        final GoogleSignInAuthentication? authUser =
+            await signInUser.authentication;
+        if (authUser != null) {
+          final credential = GoogleAuthProvider.credential(
+            accessToken: authUser.accessToken,
+            idToken: authUser.idToken,
+          );
 
-        var user = await FirebaseAuth.instance.signInWithCredential(credential);
-        var userInformation = user.additionalUserInfo?.profile;
-        globals.name = userInformation?['name'];
+          var user =
+              await FirebaseAuth.instance.signInWithCredential(credential);
+          var userInformation = user.additionalUserInfo?.profile;
+          globals.name = userInformation?['name'];
 
-        Map<String, dynamic> data = {
-          'accessToken': authUser.accessToken,
-          'idToken': authUser.idToken,
-        };
+          Map<String, dynamic> data = {
+            'accessToken': authUser.accessToken,
+            'idToken': authUser.idToken,
+          };
 
-        var isExist = await sharedPreference.isUserExist();
+          var isExist = await sharedPreference.isUserExist();
 
-        if (isExist == false) {
-          await sharedPreference.saveUserCredentialGoogle(data);
-        } else {
-          print("user already exists!");
+          if (isExist == false) {
+            await sharedPreference.saveUserCredentialGoogle(data);
+          } else {
+            print("user already exists!");
+          }
+
+          return true;
         }
-
-        return true;
       }
+    } on PlatformException catch (ex) {
+      if (ex.code == 'sign_in_canceled') {
+        print('Sign-in canceled by the user');
+      } else {
+        print('Error during Google sign-in: ${ex.message}');
+      }
+    } catch (ex) {
+      print('Error during Google sign-in: $ex');
     }
-  } on PlatformException catch (ex) {
-    if (ex.code == 'sign_in_canceled') {
-      print('Sign-in canceled by the user');
-    } else {
-      print('Error during Google sign-in: ${ex.message}');
-    }
-  } catch (ex) {
-    print('Error during Google sign-in: $ex');
-  }
 
-  return false;
-}
+    return false;
+  }
 
   static Future<bool> facebookLogIn() async {
     try {

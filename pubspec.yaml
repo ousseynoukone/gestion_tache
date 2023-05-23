@@ -91,6 +91,9 @@ flutter:
     - resources/login.png  
     - resources/google.png  
     - resources/facebook.png 
+    - resources/loading.png 
+    - resources/waiting.png 
+    - resources/done.png 
    # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gestion_tache/interfaces/Default/accueil.dart';
 import 'package:date_field/date_field.dart';
 import 'package:gestion_tache/interfaces/Default/models/task.dart';
+import 'package:gestion_tache/interfaces/Default/public_task.dart';
 import '../../globals/globals.dart' as globals;
 import 'package:gestion_tache/http/http_task_firebase.dart';
-
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -18,9 +18,16 @@ class _AddTask extends State<AddTask> {
   String title = "";
   String description = "";
   DateTime date_echeance = DateTime.now();
+  DateTime date_debut = DateTime.now();
   bool _isAdding = false;
   bool _isModifiying = false;
   bool _isDeleting = false;
+  int state = 0;
+  bool isCheckedPublic = false; // Track the state of the checkbox
+  bool isCheckedPrivate = false; // Track the state of the checkbox
+
+  String message = "";
+  String message2 = "";
 
   @override
   void initState() {
@@ -30,6 +37,20 @@ class _AddTask extends State<AddTask> {
         title = globals.task!.title;
         description = globals.task!.description;
         date_echeance = globals.task!.date_echeance;
+        state = globals.task!.state;
+
+        date_debut = globals.task!.date_debut;
+
+        if (globals.task!.status == 0) {
+          isCheckedPrivate = true;
+        } else if (globals.task!.status == 1) {
+          isCheckedPublic = true;
+        } else {
+          isCheckedPublic = true;
+          isCheckedPrivate = true;
+        }
+
+        //
       });
     }
   }
@@ -43,8 +64,13 @@ class _AddTask extends State<AddTask> {
     //   print(response);
     //pour que le task qui est dans global soit réinitialiser si on retourne a l'acceuil , autre il risque de conserver les donnés du precendent task et dés qu'on esssaye d'ajouter un task , c'est se task la qui va se charger
     globals.task = null;
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Accueil()));
+    if (isCheckedPublic) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const PublicTask()));
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Accueil()));
+    }
   }
 
   void _taskDeletion() async {
@@ -57,11 +83,19 @@ class _AddTask extends State<AddTask> {
 
   void _updateTask() async {
     Task task = Task(
-      id: globals.task?.id,
-      title: title,
-      description: description,
-      date_echeance: date_echeance,
-    );
+        id: globals.task?.id,
+        title: title,
+        date_debut: date_debut,
+        description: description,
+        date_echeance: date_echeance,
+        status: isCheckedPrivate && isCheckedPublic
+            ? 2
+            : isCheckedPublic
+                ? 1
+                : isCheckedPrivate
+                    ? 0
+                    : null,
+        state: state);
 
     //print(task);
 
@@ -74,9 +108,19 @@ class _AddTask extends State<AddTask> {
   void _saveTask() async {
     Task task = Task(
         id: null,
+        status: isCheckedPrivate && isCheckedPublic
+            ? 2
+            : isCheckedPublic
+                ? 1
+                : isCheckedPrivate
+                    ? 0
+                    : null,
+        username: globals.name.isEmpty ? globals.user?.displayName : "",
         title: title,
         description: description,
-        date_echeance: date_echeance);
+        date_echeance: date_echeance,
+        date_debut: date_debut,
+        state: state);
 
     var response = await HttpFirebase.addTaskByUser(task, globals.user?.uid);
     bool _isAdding = false;
@@ -113,11 +157,10 @@ class _AddTask extends State<AddTask> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      
         child: Scaffold(
       appBar: AppBar(
         title: globals.task == null
-            ? const Text('Creer une nouvelle tâche')
+            ? const Text('Créer une nouvelle tâche')
             : const Text("Details de la Tâche"),
         elevation: 0.0,
         backgroundColor: Theme.of(context).primaryColor,
@@ -176,7 +219,7 @@ class _AddTask extends State<AddTask> {
                       ),
                     ),
                     const SizedBox(
-                      height: 50.0,
+                      height: 30.0,
                     ),
                     const Text(
                       'Description',
@@ -220,7 +263,44 @@ class _AddTask extends State<AddTask> {
                       ),
                     ),
                     const SizedBox(
-                      height: 50.0,
+                      height: 30.0,
+                    ),
+                    const Text(
+                      'Date de début',
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    DateTimeFormField(
+                      decoration: const InputDecoration(
+                        hintStyle: TextStyle(color: Colors.black45),
+                        errorStyle: TextStyle(color: Colors.redAccent),
+                        border: OutlineInputBorder(),
+                        suffixIcon: Icon(Icons.event_note),
+                        labelText: 'Choisir une date de debut',
+                      ),
+                      use24hFormat: true,
+                      initialValue: date_debut,
+                      firstDate: date_debut.isAfter(DateTime.now())
+                          ? DateTime.now()
+                          : date_debut,
+                      lastDate: DateTime.now().add(const Duration(days: 40)),
+                      initialDate: DateTime.now(),
+                      validator: (value) {
+                        if (value!.isAtSameMomentAs(date_echeance)) {
+                          return "Date de début et date d'echance identique ! ";
+                        }
+                        return null;
+                      },
+                      //autovalidateMode: AutovalidateMode.always,
+                      onDateSelected: (DateTime value) {
+                        setState(() {
+                          date_debut = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20.0,
                     ),
                     const Text(
                       'Date Echeance',
@@ -234,11 +314,14 @@ class _AddTask extends State<AddTask> {
                         errorStyle: TextStyle(color: Colors.redAccent),
                         border: OutlineInputBorder(),
                         suffixIcon: Icon(Icons.event_note),
-                        labelText: 'Choisir une date',
+                        labelText: 'Choisir une date de fin',
                       ),
+                      use24hFormat: true,
 
                       initialValue: date_echeance,
-                      firstDate: date_echeance.isAfter(DateTime.now()) ? DateTime.now() : date_echeance,
+                      firstDate: date_echeance.isAfter(DateTime.now())
+                          ? DateTime.now()
+                          : date_echeance,
                       lastDate: DateTime.now().add(const Duration(days: 40)),
                       initialDate: DateTime.now(),
                       //autovalidateMode: AutovalidateMode.always,
@@ -247,18 +330,86 @@ class _AddTask extends State<AddTask> {
                           date_echeance = value;
                         });
                       },
+                      validator: (value) {
+                        if (date_echeance.isAtSameMomentAs(date_debut)) {
+                          return "Date de début et date d'echance identique ! ";
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(
-                      height: 50.0,
+                      height: 5.0,
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isCheckedPublic,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isCheckedPublic = value ?? false;
+                            });
+                          },
+                        ),
+                        Text(
+                          'Publique',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Checkbox(
+                          value: isCheckedPrivate,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isCheckedPrivate = value ?? false;
+                            });
+                          },
+                        ),
+                        Text(
+                          'Privée',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "  ${message}",
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 168, 0, 0), fontSize: 13),
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "  ${message2}",
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 168, 0, 0), fontSize: 13),
+                    ),
+                    const SizedBox(
+                      height: 30.0,
                     ),
                     globals.task == null
                         ? ElevatedButton(
                             onPressed: () {
-                              if (_formGlobalKey.currentState!.validate()) {
+                              if (_formGlobalKey.currentState!.validate() &&
+                                  !date_debut.isAtSameMomentAs(date_echeance)) {
+                                if (isCheckedPrivate == false &&
+                                    isCheckedPublic == false) {
+                                  setState(() {
+                                    message = "Préciser la nature de la tache";
+                                  });
+                                } else {
+                                  setState(() {
+                                    _isAdding = true;
+                                    _saveTask();
+                                  });
+                                }
+                              } else {
                                 setState(() {
-                                  _isAdding = true;
+                                  message =
+                                      "Date de début et date d'echance identique ! ";
                                 });
-                                _saveTask();
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -277,11 +428,27 @@ class _AddTask extends State<AddTask> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  if (_formGlobalKey.currentState!.validate()) {
+                                  if (_formGlobalKey.currentState!.validate() &&
+                                      !date_debut
+                                          .isAtSameMomentAs(date_echeance)) {
+                                    if (isCheckedPrivate == false &&
+                                        isCheckedPublic == false) {
+                                      setState(() {
+                                        message =
+                                            "Préciser la nature de la tache";
+                                      });
+                                    } else {
+                                      setState(() {
+                                        _isModifiying = true;
+                                      });
+                                      _updateTask();
+                                    }
+                                    ;
+                                  } else {
                                     setState(() {
-                                      _isModifiying = true;
+                                      message =
+                                          "Date de début et date d'echance identique ! ";
                                     });
-                                    _updateTask();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
